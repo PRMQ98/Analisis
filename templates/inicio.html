@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos de Pasteles</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/inicio.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/icono.jpg') }}" alt="Logo de Pasteles">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/inicio">Catálogo</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+                <li><a href="/logout">Cerrar Sesión</a></li> <!-- Agregar un enlace para cerrar sesión -->
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <!-- ... Tu sección de héroe existente ... -->
+    </section>
+    
+    <section class="search">
+        <h2>¿Qué sabor de pastel estás buscando?</h2>
+        <form id="buscar-pasteles-form" method="GET">
+            <input type="text" id="consulta" name="consulta" placeholder="Buscar pasteles...">
+            <button type="submit">Buscar</button>
+        </form>
+    </section>
+    
+    <section class="catalog">
+        <h2>Descubre Nuestro Catálogo</h2>
+        <div class="cake-list">
+            <ul>
+                <!-- ... Tu lista de pasteles existente ... -->
+            </ul>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2023 Pasteles deliciosos</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
