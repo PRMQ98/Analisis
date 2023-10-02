@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Compra</title>
+    <link rel="stylesheet" href="..\static\css\carrito.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Carrito de Compras</h1>
+        <!-- Lista de productos -->
+        <ul class="product-list">
+            <li class="product">
+                <div class="product-details">
+                    <h2>Pastel de Chocolate</h2>
+                    <p>Precio: Q75.00</p>
+                </div>
+                <div class="quantity">
+                    <button onclick="decrementQuantity(this)">-</button>
+                    <span>1</span>
+                    <button onclick="incrementQuantity(this)">+</button>
+                </div>
+                <button class="delete-button" onclick="removeProduct(this)"><i class="fas fa-trash-alt"></i></button>
+            </li>
+            <!-- Agregar más productos aquí -->
+        </ul>
+        <!-- Subtotal y Total -->
+        <div class="subtotal">
+            Subtotal: Q<span id="subtotalPrice">75.00</span>
+        </div>
+        <div class="total">
+            Total: Q<span id="totalPrice">75.00</span> 
+        </div>
+        <!-- Barra de progreso -->
+        <div class="progress-container">
+            <div class="progress">
+                <div class="progress-bar" style="width: 0;"></div>
+                <div class="progress-icon cart-icon"><i class="fas fa-shopping-cart"></i></div>
+                <div class="progress-icon payment-icon"><i class="fas fa-credit-card"></i></div>
+                <div class="progress-icon finish-icon"><i class="fas fa-check-circle"></i></div>
+            </div>
+        </div>
+        <!-- Botón de Continuar -->
+        <button class="continue-button" onclick="showPaymentMethod()">Continuar</button>
+        <!-- Método de pago (inicialmente oculto) -->
+        <div id="paymentMethod" style="display: none;">
+            <h2>Selecciona un método de pago:</h2>
+            <input type="checkbox" id="efectivo">Efectivo
+            <button class="confirm-button" onclick="finishPurchase()">Confirmar</button>
+        </div>
+    </div>
+
+    <script src="..\static\js\confirmarCompra.js"></script>
+</body>
+</html>
