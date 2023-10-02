@@ -1,0 +1,147 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #fff;
+    margin: 5;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff8fb;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: #d81b60;
+}
+
+.product-list {
+    list-style: none;
+    padding: 0;
+}
+
+.product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.product-details {
+    flex-grow: 1;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+}
+
+.quantity button {
+    background-color: #f55592;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 20px;
+}
+
+.total {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 24px;
+    color: #d81b60;
+}
+
+.subtotal {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 18px;
+    color: #941f4a;
+}
+
+.progress-container {
+    position: relative;
+}
+
+.progress {
+    width: 100%;
+    height: 20px;
+    background-color: #ccc;
+    position: relative;
+    margin-top: 20px;
+    border-radius: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%; 
+    background-color: #d81b60;
+    position: absolute;
+    border-radius: 15px;
+}
+
+.progress-icon {
+    position: absolute;
+    font-size: 22px;
+    color: #fff;
+    background-color: #d81b60;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.progress-icon.cart-icon {
+    left: 0;
+}
+
+.progress-icon.payment-icon {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.progress-icon.finish-icon {
+    right: 0;
+}
+
+.delete-button {
+    background-color: #96017d;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.continue-button {
+    background-color: #d81b60;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 25px;
+    border-radius: 25px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.confirm-button {
+    background-color: #d81b60;
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 25px;
+    display: none; /* Oculto inicialmente */
+}
