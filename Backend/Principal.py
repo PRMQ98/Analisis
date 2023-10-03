@@ -4,12 +4,13 @@ from flask_cors import CORS
 # from Observer import PedidoObservable, ObservadorPedido
 import pyodbc
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="C:/Users/baril/Documents/8vo Semestre Sistemas/Análisis de Sistemas II/Rama de pruebas/Analisis/Frontend/templates")
 CORS(app)
 
+folder="C:/Users/baril/Documents/8vo Semestre Sistemas/Análisis de Sistemas II/Rama de pruebas/Analisis/Frontend/templates"
 @app.route('/templates/<path:filename>')
 def serve_static(filename):
-    return send_from_directory('Frontend/templates', filename)
+    return send_from_directory(folder, filename)
 
 @app.route("/")
 def index():
