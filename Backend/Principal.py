@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory
 from flask_cors import CORS
+from connection import connection_string
 # from PastelFactory import Pastel, PastelHorneado, PastelFrio, PastelDeYogurt
 # from Observer import PedidoObservable, ObservadorPedido
 import pyodbc
@@ -24,7 +25,7 @@ def login():
     username = data['username']
     password = data['password']
 
-    connection_string = f'DRIVER=SQL Server;SERVER=analisis2023.database.windows.net;DATABASE=analisis2023;UID=administrador;PWD=admin123#'
+    
     connection = pyodbc.connect(connection_string)
 
     
