@@ -1,50 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedidos de Pasteles</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/inicio.css') }}">
+  <title>Catálogo de Pasteles</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="{{ url_for('static', filename='images/icono.jpg') }}" alt="Logo de Pasteles">
+  <div class="container">
+    <h1>Catálogo de Pasteles</h1>
+    <div class="row" id="pastelesCatalog">
+      <!-- Aquí se mostrarán los pasteles dinámicamente -->
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script>
+    // Recupera los pasteles del almacenamiento local
+    const pasteles = JSON.parse(localStorage.getItem("Pasteles"));
+
+    // Obtén la referencia al elemento donde se mostrarán los pasteles
+    const pastelesCatalog = document.getElementById("pastelesCatalog");
+
+    document.addEventListener("DOMContentLoaded", function() {
+      if (pasteles && Array.isArray(pasteles)) {
+        // Recorre la lista de pasteles y crea tarjetas para cada uno
+        pasteles.forEach(pastel => {
+          const card = document.createElement("div");
+          card.classList.add("col-md-4");
+
+          card.innerHTML = `
+            <div class="card mb-4 shadow-sm">
+              <img src="pastel.jpg" class="card-img-top" alt="Imagen del pastel">
+              <div class="card-body">
+                <h5 class="card-title">${pastel.Nombre}</h5>
+                <p class="card-text">
+                  <strong>Tipo:</strong> ${pastel.Tipo}<br>
+                  <strong>Sabor:</strong> ${pastel.Sabor}<br>
+                  <strong>Relleno:</strong> ${pastel.Relleno}<br>
+                  <strong>Precio:</strong> Q${pastel.Precio}<br>
+                </p>
+              </div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="/inicio">Catálogo</a></li>
-                <li><a href="/contacto">Contacto</a></li>
-                <li><a href="/logout">Cerrar Sesión</a></li> <!-- Agregar un enlace para cerrar sesión -->
-            </ul>
-        </nav>
-    </header>
-    
-    <section class="hero">
-        <!-- ... Tu sección de héroe existente ... -->
-    </section>
-    
-    <section class="search">
-        <h2>¿Qué sabor de pastel estás buscando?</h2>
-        <form id="buscar-pasteles-form" method="GET">
-            <input type="text" id="consulta" name="consulta" placeholder="Buscar pasteles...">
-            <button type="submit">Buscar</button>
-        </form>
-    </section>
-    
-    <section class="catalog">
-        <h2>Descubre Nuestro Catálogo</h2>
-        <div class="cake-list">
-            <ul>
-                <!-- ... Tu lista de pasteles existente ... -->
-            </ul>
-        </div>
-    </section>
-    
-    <footer>
-        <p>&copy; 2023 Pasteles deliciosos</p>
-    </footer>
-    
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+          `;
+
+          pastelesCatalog.appendChild(card);
+        });
+      } else {
+        // Maneja el caso en el que no haya pasteles en el almacenamiento local
+        const noPastelesMessage = document.createElement("p");
+        noPastelesMessage.textContent = "No hay pasteles disponibles.";
+        pastelesCatalog.appendChild(noPastelesMessage);
+      }
+    });
+  </script>
 </body>
 </html>
