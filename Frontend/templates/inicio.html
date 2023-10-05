@@ -5,13 +5,35 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tipo="todos">Todos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tipo="horneado">Horneado</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tipo="frío">Frio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tipo="yogurt">Yogurt</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-tipo="queso">Queso</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <div class="container">
     <h1>Catálogo de Pasteles</h1>
     <div class="row" id="pastelesCatalog">
       <!-- Aquí se mostrarán los pasteles dinámicamente -->
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script>
@@ -21,10 +43,13 @@
     // Obtén la referencia al elemento donde se mostrarán los pasteles
     const pastelesCatalog = document.getElementById("pastelesCatalog");
 
-    document.addEventListener("DOMContentLoaded", function() {
+    // Función para cargar los pasteles en el catálogo
+    function cargarPasteles(pasteles) {
+      pastelesCatalog.innerHTML = ''; // Limpia el contenido actual
+
       if (pasteles && Array.isArray(pasteles)) {
-        // Recorre la lista de pasteles y crea tarjetas para cada uno
         pasteles.forEach(pastel => {
+          // Crea las tarjetas de los pasteles
           const card = document.createElement("div");
           card.classList.add("col-md-4");
 
@@ -43,7 +68,7 @@
               </div>
             </div>
           `;
-
+          // console.log(pasteles)
           pastelesCatalog.appendChild(card);
         });
       } else {
@@ -52,7 +77,22 @@
         noPastelesMessage.textContent = "No hay pasteles disponibles.";
         pastelesCatalog.appendChild(noPastelesMessage);
       }
+    }
+
+    // Manejar el clic en los enlaces
+    $("nav .nav-link").click(function (e) {
+      e.preventDefault(); // Evitar la navegación real
+
+      const tipo = $(this).data("tipo"); // Obtener el tipo de pastel desde el atributo data
+
+      // Realizar una solicitud AJAX a la API basada en el tipo de pastel
+      $.get(`http://localhost:5000/api/catalogo/${tipo}`, function (data) {
+        cargarPasteles(data); // Carga los pasteles en el catálogo
+      });
     });
+
+    // Por defecto, carga todos los pasteles al cargar la página
+    cargarPasteles(pasteles);
   </script>
 </body>
 </html>
