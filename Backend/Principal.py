@@ -26,17 +26,14 @@ def login():
     data = request.json
     username = data['username']
     password = data['password']
-
-    
     connection = pyodbc.connect(connection_string)
 
-    
     # Realiza la consulta a la base de datos para validar las credenciales
     cursor = connection.cursor()
     query = f"SELECT * FROM Esquema_analisis.Usuarios WHERE Usuario = '{username}' AND Contra = '{password}'"
     cursor.execute(query)
     user = cursor.fetchone()
-    # user = str(user)
+    
     if user:
         nombre_usuario = user [3]
         menus = []
@@ -64,9 +61,7 @@ def login():
             pasteles.append(pastel) 
             
         return jsonify({'message': 'Credenciales válidas', 'Usuario': nombre_usuario, 'Menus': menus, 'Submenus': submenus, 'Pasteles': pasteles})
-        
-        # else:
-        #     return jsonify({'message': 'Credenciales válidas', 'Usuario': user})
+
     else:
             return jsonify({'message': 'Credenciales inválidas'}), 401
 
