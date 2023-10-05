@@ -39,14 +39,16 @@
   axios.post("http://localhost:5000/api/login", { username, password })
     .then(response => {
       if (response.status === 200) {
+        const usuario = response.data.Usuario;
         const pasteles = response.data.Pasteles;
         const menus = response.data.Menus;
         const submenus = response.data.Submenus;
         const precio = response.data.Precio;
         localStorage.setItem("Menus", JSON.stringify(menus));
-        localStorage.setItem("Submenus", submenus);
+        localStorage.setItem("Submenus", JSON.stringify(submenus));
         localStorage.setItem('Precio', precio);
         localStorage.setItem("Pasteles", JSON.stringify(pasteles)); 
+        localStorage.setItem("Usuario", usuario)
         window.location.href = "/templates/inicio.html";
       } else {
         alert("Credenciales inválidas");

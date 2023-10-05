@@ -41,6 +41,7 @@ def login():
         if nombre_usuario == 'Administrador':
             menus = ['Adminsitracion']
             submenus = ['Crear pasteles', 'Descuentos', 'Clientes']
+            # submenus = str(submenus)
 
         # Consulta para obtener todos los pasteles desde la base de datos
         pasteles_query = "SELECT * FROM Esquema_analisis.Pastel"

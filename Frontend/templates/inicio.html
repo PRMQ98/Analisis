@@ -24,6 +24,11 @@
           <a class="nav-link" href="#" data-tipo="queso">Queso</a>
         </li>
       </ul>
+      <div id="admin-menu" style="display: none;">
+        <ul class="navbar-nav ml-auto">
+          <!-- Los elementos del menú y submenús se agregarán aquí -->
+        </ul>
+      </div>
     </div>
   </nav>
   <div class="container">
@@ -94,6 +99,52 @@
 
     // Por defecto, carga todos los pasteles al cargar la página
     cargarPasteles({ Pasteles: pasteles });
+
+
+    // Recupera los menús y submenús del almacenamiento local
+    const menus = JSON.parse(localStorage.getItem("Menus"));
+    const submenus = JSON.parse(localStorage.getItem("Submenus"));
+    
+    localStorage.setItem("Menus", JSON.stringify(menus));
+    localStorage.setItem("Submenus", JSON.stringify(submenus));
+
+    // const menusData = localStorage.getItem("Menus");
+    // const submenusData = localStorage.getItem("Submenus");
+
+    // Verifica si los datos existen y son no nulos antes de analizarlos
+    // const menus = menusData ? JSON.parse(menusData) : [];
+    // const submenus = submenusData ? JSON.parse(submenusData) : [];
+    console.log(submenus)
+    // Recupera el nombre de usuario del almacenamiento local
+    const usuario = localStorage.getItem("Usuario");
+    console.log(usuario)
+    // Verificar si el usuario es administrador y mostrar menús y submenús si es el caso
+    if (usuario === "Administrador" && menus && menus.length && submenus && submenus.length) {
+      const adminMenu = document.getElementById("admin-menu");
+      adminMenu.style.display = "block";
+
+      // Agregar los elementos del menú y submenús aquí
+      const adminMenuList = adminMenu.querySelector("ul.navbar-nav");
+      menus.forEach(menu => {
+        const menuElement = document.createElement("li");
+        menuElement.classList.add("nav-item");
+        const menuLink = document.createElement("a");
+        menuLink.classList.add("nav-link");
+        menuLink.textContent = menu;
+        menuElement.appendChild(menuLink);
+        adminMenuList.appendChild(menuElement);
+      });
+      submenus.forEach(submenu => {
+        const submenuElement = document.createElement("li");
+        submenuElement.classList.add("nav-item");
+        const submenuLink = document.createElement("a");
+        submenuLink.classList.add("nav-link");
+        submenuLink.textContent = submenu;
+        submenuElement.appendChild(submenuLink);
+        adminMenuList.appendChild(submenuElement);
+      });
+    }
+
   </script>
 </body>
 </html>
