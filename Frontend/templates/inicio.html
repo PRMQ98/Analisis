@@ -45,9 +45,9 @@
 
     // Función para cargar los pasteles en el catálogo
     function cargarPasteles(pastelesResponse) {
-      pastelesCatalog.innerHTML = ''; // Limpia el contenido actual
+      pastelesCatalog.innerHTML = ''; 
 
-      const pasteles = pastelesResponse.Pasteles; // Accede a los pasteles dentro de la respuesta
+      const pasteles = pastelesResponse.Pasteles;
 
       if (pasteles && Array.isArray(pasteles)) {
         pasteles.forEach(pastel => {
@@ -82,13 +82,13 @@
 
     // Manejar el clic en los enlaces
     $("nav .nav-link").click(function (e) {
-      e.preventDefault(); // Evitar la navegación real
+      e.preventDefault();
 
-      const tipo = $(this).data("tipo"); // Obtener el tipo de pastel desde el atributo data
+      const tipo = $(this).data("tipo");
 
       // Realizar una solicitud AJAX a la API basada en el tipo de pastel
       $.get(`http://localhost:5000/api/catalogo/${tipo}`, function (data) {
-        cargarPasteles(data); // Carga los pasteles en el catálogo
+        cargarPasteles(data);
       });
     });
 

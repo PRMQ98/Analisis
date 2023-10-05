@@ -95,54 +95,25 @@ def catalogo_por_tipo(tipo_pastel):
             'FechaIngreso': row[6]
         }
         pasteles.append(pastel)
+    if tipo_pastel != 'todos':
+        # Seleccionar la estrategia adecuada según el tipo de pastel
+        if tipo_pastel == 'horneado':
+            estrategia = EstrategiaHorneado()
+        elif tipo_pastel == 'frío':
+            estrategia = EstrategiaFrio()
+        elif tipo_pastel == 'yogurt':
+            estrategia = EstrategiaYogurt()
+        elif tipo_pastel == 'queso':
+            estrategia = EstrategiaQueso()
+        else:
+            return jsonify({'message': 'Tipo de pastel no válido'}), 400
 
-    # Seleccionar la estrategia adecuada según el tipo de pastel
-    if tipo_pastel == 'horneado':
-        estrategia = EstrategiaHorneado()
-    elif tipo_pastel == 'frío':
-        estrategia = EstrategiaFrio()
-    elif tipo_pastel == 'yogurt':
-        estrategia = EstrategiaYogurt()
-    elif tipo_pastel == 'queso':
-        estrategia = EstrategiaQueso()
-    else:
-        return jsonify({'message': 'Tipo de pastel no válido'}), 400
-
-    # Aplicar la estrategia para filtrar los pasteles
-    pasteles_filtrados = estrategia.filtrar_pasteles(pasteles)
+        # Aplicar la estrategia para filtrar los pasteles
+        pasteles_filtrados = estrategia.filtrar_pasteles(pasteles)
+    elif tipo_pastel == 'todos':
+        pasteles_filtrados = pasteles
 
     return jsonify({'message': 'Catálogo de pasteles', 'Pasteles': pasteles_filtrados})
-
-
-@app.route('/api/catalogo', methods=["GET"])
-def catalogo():
-    connection = pyodbc.connect(connection_string)
-    
-    # Realiza la consulta a la base de datos para obtener todos los pasteles
-    cursor = connection.cursor()
-    pasteles_query = "SELECT * FROM Esquema_analisis.Pastel"
-    cursor.execute(pasteles_query)
-    pasteles_data = cursor.fetchall()
-
-    # Crear un diccionario para agrupar los pasteles por tipo
-    pasteles_agrupados = defaultdict(list)
-    for row in pasteles_data:
-        pastel = {
-            'Nombre': row[1],
-            'Tipo': row[2],
-            'Sabor': row[3],
-            'Relleno': row[4],
-            'Precio': row[5],
-            'FechaIngreso': row[6]
-        }
-        tipo_pastel = row[2]
-        pasteles_agrupados[tipo_pastel].append(pastel)
-
-    # Convertir el diccionario en una lista de objetos JSON
-    catalogo = [{'Tipo': tipo, 'Pasteles': pasteles} for tipo, pasteles in pasteles_agrupados.items()]
-
-    return jsonify({'message': 'Catálogo de pasteles', 'Catalogo': catalogo})
-
 
 if __name__ == "__main__":
     app.run(port=5000,debug=True)
