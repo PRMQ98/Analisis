@@ -44,8 +44,10 @@
     const pastelesCatalog = document.getElementById("pastelesCatalog");
 
     // Función para cargar los pasteles en el catálogo
-    function cargarPasteles(pasteles) {
+    function cargarPasteles(pastelesResponse) {
       pastelesCatalog.innerHTML = ''; // Limpia el contenido actual
+
+      const pasteles = pastelesResponse.Pasteles; // Accede a los pasteles dentro de la respuesta
 
       if (pasteles && Array.isArray(pasteles)) {
         pasteles.forEach(pastel => {
@@ -68,11 +70,10 @@
               </div>
             </div>
           `;
-          // console.log(pasteles)
           pastelesCatalog.appendChild(card);
         });
       } else {
-        // Maneja el caso en el que no haya pasteles en el almacenamiento local
+        // Maneja el caso en el que no haya pasteles en la respuesta
         const noPastelesMessage = document.createElement("p");
         noPastelesMessage.textContent = "No hay pasteles disponibles.";
         pastelesCatalog.appendChild(noPastelesMessage);
@@ -92,7 +93,7 @@
     });
 
     // Por defecto, carga todos los pasteles al cargar la página
-    cargarPasteles(pasteles);
+    cargarPasteles({ Pasteles: pasteles });
   </script>
 </body>
 </html>
