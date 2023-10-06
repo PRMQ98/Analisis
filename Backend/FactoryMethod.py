@@ -16,7 +16,7 @@ class Pedido(ABC):
 class PedidoContado(Pedido):
     def generar_factura(self):
         # Lógica para generar factura en formato PDF
-        return f"Generando factura al contado para {self.cliente}"
+        return f"Generando factura para {self.cliente}"
 
 # Clase para representar un Pedido al Crédito
 class PedidoCredito(Pedido):

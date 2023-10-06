@@ -36,7 +36,7 @@ def login():
     user = cursor.fetchone()
     
     if user:    
-        nombre_usuario = user [4]
+        nombre_usuario = user [2]
         menus = []
         submenus = []
         if nombre_usuario == 'Administrador':
@@ -128,6 +128,7 @@ def crear_pedido_contado():
                     WHERE U.Usuario = ?;"""
     cursor.execute(cliente_query, (cliente,))
     resultado_cliente = cursor.fetchone()
+    # tipo_cliente = str(resultado_cliente)
     tipo_cliente = resultado_cliente[8]
 
     if tipo_cliente == "Credito":
@@ -138,7 +139,7 @@ def crear_pedido_contado():
         factory_contado = PedidoContadoFactory()
         pedido_contado = factory_contado.crear_pedido(cliente, productos)
         factura = pedido_contado.generar_factura()
-    return jsonify({"Tipo Cliente": tipo_cliente, "Factura": factura})
+    return jsonify({"factura": factura})
 
 
 if __name__ == "__main__":
