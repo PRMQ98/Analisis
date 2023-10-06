@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, jsonify, send_from_directory, send_file, make_response
+import tempfile
 from flask_cors import CORS
 from connection import connection_string
 from collections import defaultdict
 from StrategyMethod import *
 from FactoryMethod import *
+from io import BytesIO
+from reportlab.pdfgen import canvas
 # from PastelFactory import Pastel, PastelHorneado, PastelFrio, PastelDeYogurt
 # from Observer import PedidoObservable, ObservadorPedido
 import pyodbc
@@ -139,7 +142,18 @@ def crear_pedido_contado():
         factory_contado = PedidoContadoFactory()
         pedido_contado = factory_contado.crear_pedido(cliente, productos)
         factura = pedido_contado.generar_factura()
-    return jsonify({"factura": factura})
+
+         # Crear una respuesta HTTP
+        response = make_response(factura.read())
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'attachment; filename=factura.pdf'
+
+        # Cierra el búfer
+        factura.close()
+
+        return response
+    # return jsonify({"factura": factura})
+    #return send_file(factura, as_attachment=True, attachment_filename='factura.pdf')
 
 
 if __name__ == "__main__":

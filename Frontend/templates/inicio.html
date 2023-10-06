@@ -204,8 +204,15 @@
         contentType: 'application/json',
         data: JSON.stringify({ cliente, productos }),
         success: function (response) {
-          // Aquí puedes manejar la respuesta de la API, por ejemplo, mostrar un mensaje de éxito
-          alert('Pedido creado con éxito: ' + response.factura);
+          // Crea un enlace para descargar el PDF
+          const blob = new Blob([response], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'factura.pdf';
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
           $('#comprarModal').modal('hide');
         },
         error: function (error) {
