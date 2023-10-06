@@ -3,6 +3,7 @@ from flask_cors import CORS
 from connection import connection_string
 from collections import defaultdict
 from StrategyMethod import *
+from FactoryMethod import *
 # from PastelFactory import Pastel, PastelHorneado, PastelFrio, PastelDeYogurt
 # from Observer import PedidoObservable, ObservadorPedido
 import pyodbc
@@ -34,8 +35,8 @@ def login():
     cursor.execute(query)
     user = cursor.fetchone()
     
-    if user:
-        nombre_usuario = user [3]
+    if user:    
+        nombre_usuario = user [4]
         menus = []
         submenus = []
         if nombre_usuario == 'Administrador':
@@ -110,6 +111,35 @@ def catalogo_por_tipo(tipo_pastel):
         pasteles_filtrados = pasteles
 
     return jsonify({'message': 'Catálogo de pasteles', 'Pasteles': pasteles_filtrados})
+
+
+@app.route('/api/pedido', methods=['POST'])
+def crear_pedido_contado():
+    data = request.json
+    cliente = data['cliente']
+    productos = data['productos']
+
+    connection = pyodbc.connect(connection_string)
+    # Realiza la consulta a la base de datos para buscar el tipo de cliente
+    cursor = connection.cursor()
+    cliente_query = """SELECT *
+                    FROM Esquema_analisis.Usuarios U
+                    INNER JOIN Esquema_analisis.Cliente C ON U.ID_Cliente = C.ID_Cliente
+                    WHERE U.Usuario = ?;"""
+    cursor.execute(cliente_query, (cliente,))
+    resultado_cliente = cursor.fetchone()
+    tipo_cliente = resultado_cliente[8]
+
+    if tipo_cliente == "Credito":
+        factory_credito = PedidoCreditoFactory()
+        pedido_credito = factory_credito.crear_pedido(cliente, productos)
+        factura = pedido_credito.generar_factura()
+    elif tipo_cliente == "Contado":
+        factory_contado = PedidoContadoFactory()
+        pedido_contado = factory_contado.crear_pedido(cliente, productos)
+        factura = pedido_contado.generar_factura()
+    return jsonify({"Tipo Cliente": tipo_cliente, "Factura": factura})
+
 
 if __name__ == "__main__":
     app.run(port=5000,debug=True)

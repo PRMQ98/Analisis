@@ -37,6 +37,49 @@
       <!-- Aquí se mostrarán los pasteles dinámicamente -->
     </div>
   </div>
+  <!-- Ventana emergente -->
+  <div class="modal" id="comprarModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmar compra</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="comprarForm">
+            <div class="form-group">
+              <label for="nombreCliente">Nombre del Cliente</label>
+              <input type="text" class="form-control" id="nombreCliente" placeholder="Nombre del cliente" readonly>
+            </div>
+            <div class="form-group">
+              <label for="nombrePastel">Nombre del Pastel</label>
+              <input type="text" class="form-control" id="nombrePastel" placeholder="Nombre del pastel" readonly>
+            </div>
+            <div class="form-group">
+              <label for="tipoPastel">Tipo de Pastel</label>
+              <input type="text" class="form-control" id="tipoPastel" placeholder="Tipo de pastel" readonly>
+            </div>
+            <div class="form-group">
+              <label for="saborPastel">Sabor del Pastel</label>
+              <input type="text" class="form-control" id="saborPastel" placeholder="Sabor del pastel" readonly>
+            </div>
+            <div class="form-group">
+              <label for="precioPastel">Precio del Pastel</label>
+              <input type="text" class="form-control" id="precioPastel" placeholder="Precio del pastel" readonly>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="agregarAlCarrito">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
   <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.0/dist/umd/popper.min.js"></script>
@@ -139,6 +182,59 @@
       });
     }
 
+  
+    // Código para mostrar la ventana emergente cuando se hace clic en "Comprar"
+    const comprarButton = document.querySelectorAll('.btn.btn-primary');
+    comprarButton.forEach((button) => {
+      button.addEventListener('click', function () {
+        $('#comprarModal').modal('show');
+      });
+    });
+  
+    // Código para crear un pedido al hacer clic en "Agregar al carrito"
+    const agregarAlCarritoButton = document.getElementById('agregarAlCarrito');
+    agregarAlCarritoButton.addEventListener('click', function () {
+      const cliente = usuario; 
+      const productos = ["Pastel de Chocolate"];
+  
+      // Realiza una solicitud AJAX para crear un pedido al contado
+      $.ajax({
+        type: 'POST',
+        url: '/api/pedido',
+        contentType: 'application/json',
+        data: JSON.stringify({ cliente, productos }),
+        success: function (response) {
+          // Aquí puedes manejar la respuesta de la API, por ejemplo, mostrar un mensaje de éxito
+          alert('Pedido creado con éxito: ' + response.factura);
+          $('#comprarModal').modal('hide');
+        },
+        error: function (error) {
+          // Maneja cualquier error que ocurra durante la solicitud
+          alert('Error al crear el pedido: ' + error.responseJSON.message);
+        }
+      });
+    });
+
+    // const comprarButton = document.querySelectorAll('.btn.btn-primary');
+  comprarButton.forEach((button, index) => {
+  button.addEventListener('click', function () {
+    const pastel = pasteles[index]; // Obtener la información del pastel según el índice del botón
+    const nombreClienteInput = document.getElementById('nombreCliente');
+    const nombrePastelInput = document.getElementById('nombrePastel');
+    const tipoPastelInput = document.getElementById('tipoPastel');
+    const saborPastelInput = document.getElementById('saborPastel');
+    const precioPastelInput = document.getElementById('precioPastel');
+    
+    // Llenar los campos con la información del pastel
+    nombreClienteInput.value = usuario; // Nombre del cliente
+    nombrePastelInput.value = pastel.Nombre;
+    tipoPastelInput.value = pastel.Tipo; // Tipo del pastel
+    saborPastelInput.value = pastel.Sabor; // Sabor del pastel
+    precioPastelInput.value = `Q${pastel.Precio}`; // Precio del pastel
+
+    $('#comprarModal').modal('show');
+  });
+});
   </script>
 </body>
 </html>
