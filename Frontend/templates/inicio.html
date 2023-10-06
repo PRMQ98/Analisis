@@ -91,42 +91,62 @@
     // Obtén la referencia al elemento donde se mostrarán los pasteles
     const pastelesCatalog = document.getElementById("pastelesCatalog");
 
-    // Función para cargar los pasteles en el catálogo
-    function cargarPasteles(pastelesResponse) {
-      pastelesCatalog.innerHTML = ''; 
+  // Función para cargar los pasteles en el catálogo
+  function cargarPasteles(pastelesResponse) {
+    pastelesCatalog.innerHTML = '';
 
-      const pasteles = pastelesResponse.Pasteles;
+    const pasteles = pastelesResponse.Pasteles;
 
-      if (pasteles && Array.isArray(pasteles)) {
-        pasteles.forEach(pastel => {
-          // Crea las tarjetas de los pasteles
-          const card = document.createElement("div");
-          card.classList.add("col-md-4");
+    if (pasteles && Array.isArray(pasteles)) {
+      pasteles.forEach(pastel => {
+        // Crea las tarjetas de los pasteles
+        const card = document.createElement("div");
+        card.classList.add("col-md-4");
 
-          card.innerHTML = `
-            <div class="card mb-4 shadow-sm">
-              <img src="pastel.jpg" class="card-img-top" alt="Imagen del pastel">
-              <div class="card-body">
-                <h5 class="card-title">${pastel.Nombre}</h5>
-                <p class="card-text">
-                  <strong>Tipo:</strong> ${pastel.Tipo}<br>
-                  <strong>Sabor:</strong> ${pastel.Sabor}<br>
-                  <strong>Relleno:</strong> ${pastel.Relleno}<br>
-                  <strong>Precio:</strong> Q${pastel.Precio}<br>
-                </p>
-                <button class="btn btn-primary">Comprar</button>
-              </div>
+        card.innerHTML = `
+          <div class="card mb-4 shadow-sm">
+            <img src="pastel.jpg" class="card-img-top" alt="Imagen del pastel">
+            <div class="card-body">
+              <h5 class="card-title">${pastel.Nombre}</h5>
+              <p class="card-text">
+                <strong>Tipo:</strong> ${pastel.Tipo}<br>
+                <strong>Sabor:</strong> ${pastel.Sabor}<br>
+                <strong>Relleno:</strong> ${pastel.Relleno}<br>
+                <strong>Precio:</strong> Q${pastel.Precio}<br>
+              </p>
+              <button class="btn btn-primary">Comprar</button>
             </div>
-          `;
-          pastelesCatalog.appendChild(card);
-        });
-      } else {
-        // Maneja el caso en el que no haya pasteles en la respuesta
-        const noPastelesMessage = document.createElement("p");
-        noPastelesMessage.textContent = "No hay pasteles disponibles.";
-        pastelesCatalog.appendChild(noPastelesMessage);
-      }
-    }
+          </div>
+      `;
+      pastelesCatalog.appendChild(card);
+
+      // Obtener el botón "Comprar" dentro de esta tarjeta y agregar el evento de clic
+      const comprarButton = card.querySelector('.btn.btn-primary');
+      comprarButton.addEventListener('click', function () {
+        // Aquí puedes usar 'pastel' para obtener la información correcta del pastel
+        const nombreClienteInput = document.getElementById('nombreCliente');
+        const nombrePastelInput = document.getElementById('nombrePastel');
+        const tipoPastelInput = document.getElementById('tipoPastel');
+        const saborPastelInput = document.getElementById('saborPastel');
+        const precioPastelInput = document.getElementById('precioPastel');
+
+        nombreClienteInput.value = usuario; // Nombre del cliente
+        nombrePastelInput.value = pastel.Nombre;
+        tipoPastelInput.value = pastel.Tipo; // Tipo del pastel
+        saborPastelInput.value = pastel.Sabor; // Sabor del pastel
+        precioPastelInput.value = `Q${pastel.Precio}`; // Precio del pastel
+
+        $('#comprarModal').modal('show');
+      });
+    });
+  } else {
+    // Maneja el caso en el que no haya pasteles en la respuesta
+    const noPastelesMessage = document.createElement("p");
+    noPastelesMessage.textContent = "No hay pasteles disponibles.";
+    pastelesCatalog.appendChild(noPastelesMessage);
+  }
+}
+
 
     // Manejar el clic en los enlaces
     $("nav .nav-link").click(function (e) {
@@ -140,7 +160,7 @@
       });
     });
 
-    // Por defecto, carga todos los pasteles al cargar la página
+    // Mostrara todos los pasteles al cargar la página
     cargarPasteles({ Pasteles: pasteles });
 
 
@@ -162,15 +182,6 @@
 
       // Agregar los elementos del menú y submenús aquí
       const adminMenuList = adminMenu.querySelector("ul.navbar-nav");
-      // menus.forEach(menu => {
-      //   const menuElement = document.createElement("li");
-      //   menuElement.classList.add("nav-item");
-      //   const menuLink = document.createElement("a");
-      //   menuLink.classList.add("nav-link");
-      //   menuLink.textContent = menu;
-      //   menuElement.appendChild(menuLink);
-      //   adminMenuList.appendChild(menuElement);
-      // });
       submenus.forEach(submenu => {
         const submenuElement = document.createElement("li");
         submenuElement.classList.add("nav-item");
@@ -182,15 +193,6 @@
       });
     }
 
-  
-    // Código para mostrar la ventana emergente cuando se hace clic en "Comprar"
-    const comprarButton = document.querySelectorAll('.btn.btn-primary');
-    comprarButton.forEach((button) => {
-      button.addEventListener('click', function () {
-        $('#comprarModal').modal('show');
-      });
-    });
-  
     // Código para crear un pedido al hacer clic en "Agregar al carrito"
     const agregarAlCarritoButton = document.getElementById('agregarAlCarrito');
     agregarAlCarritoButton.addEventListener('click', function () {
@@ -221,27 +223,6 @@
         }
       });
     });
-
-    // const comprarButton = document.querySelectorAll('.btn.btn-primary');
-  comprarButton.forEach((button, index) => {
-  button.addEventListener('click', function () {
-    const pastel = pasteles[index]; // Obtener la información del pastel según el índice del botón
-    const nombreClienteInput = document.getElementById('nombreCliente');
-    const nombrePastelInput = document.getElementById('nombrePastel');
-    const tipoPastelInput = document.getElementById('tipoPastel');
-    const saborPastelInput = document.getElementById('saborPastel');
-    const precioPastelInput = document.getElementById('precioPastel');
-    
-    // Llenar los campos con la información del pastel
-    nombreClienteInput.value = usuario; // Nombre del cliente
-    nombrePastelInput.value = pastel.Nombre;
-    tipoPastelInput.value = pastel.Tipo; // Tipo del pastel
-    saborPastelInput.value = pastel.Sabor; // Sabor del pastel
-    precioPastelInput.value = `Q${pastel.Precio}`; // Precio del pastel
-
-    $('#comprarModal').modal('show');
-  });
-});
   </script>
 </body>
 </html>
