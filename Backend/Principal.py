@@ -138,20 +138,23 @@ def crear_pedido_contado():
         factory_credito = PedidoCreditoFactory()
         pedido_credito = factory_credito.crear_pedido(cliente, productos)
         factura = pedido_credito.generar_factura()
+        response = make_response(factura.read())
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'attachment; filename=nota_credito.pdf'
+
+        factura.close()
     elif tipo_cliente == "Contado":
         factory_contado = PedidoContadoFactory()
         pedido_contado = factory_contado.crear_pedido(cliente, productos)
         factura = pedido_contado.generar_factura()
 
-         # Crear una respuesta HTTP
         response = make_response(factura.read())
         response.headers['Content-Type'] = 'application/pdf'
         response.headers['Content-Disposition'] = 'attachment; filename=factura.pdf'
 
-        # Cierra el búfer
         factura.close()
 
-        return response
+    return response
     # return jsonify({"factura": factura})
     #return send_file(factura, as_attachment=True, attachment_filename='factura.pdf')
 
