@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html>
 <head>
   <title>Login</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/login.css">
   <!-- <link rel="stylesheet" type="text" href="{{ url_for('static', filename='templates') }}"> -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
@@ -10,14 +10,14 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-4">
-        <h1>Login</h1>
+        <h1>LOG IN <i class="fas fa-store"></i></h1>
         <form id="loginForm" method="POST">
             <div class="form-group">
-              <label for="user">Usuario</label>
+              <label for="user"><i class="fas fa-user"></i> Usuario</label>
               <input type="text" class="form-control" id="user" placeholder="Ingrese su usuario">
             </div>
             <div class="form-group">
-              <label for="password">Contraseña</label>
+              <label for="password"><i class="fas fa-lock"></i> Contraseña</label>
               <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña">
             </div>
             <button type="submit" class="btn btn-primary">Iniciar sesión</button>
