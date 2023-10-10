@@ -1,119 +1,209 @@
-/* Estilos para el cuerpo de la página */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    margin: 0;
-    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f0f0f0;
 }
 
-/* Estilos para el encabezado principal */
 h1 {
-    background-color: #343a40;
-    color: #ffffff;
-    text-align: center;
-    padding: 20px 0;
-    margin: 0;
+  margin-bottom: 20px;
 }
 
-/* Estilos para el formulario de búsqueda */
-form {
-    text-align: center;
-    margin: 20px auto;
+/* Estilo para las tarjetas (cards) */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-input[type="text"] {
-    padding: 10px;
-    width: 60%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #343a40;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-/* Estilos para la lista de pasteles */
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-ul li {
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos para los botones de crear pedido */
-h2 {
-    text-align: center;
-    margin-top: 20px;
-}
-
-form[action="/crear_pedido_contado"],
-form[action="/crear_pedido_credito"] {
-    text-align: center;
-    margin: 20px auto;
-}
-
-button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #343a40;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button[type="submit"]:hover {
-    background-color: #1e2124;
+.col-md-4 {
+  flex-basis: calc(25% - 8px);
+  margin-right: 5px;
 }
 
 
-/* Estilos para la barra de navegación */
-nav {
-    background-color: #333; /* Cambia el color de fondo según tu diseño */
-    color: #fff; /* Cambia el color de texto según tu diseño */
-    padding: 10px 0;
+@media (max-width: 1199px) {
+  .col-md-4 {
+    flex-basis: calc(33.3333% - 8px);
+  }
+}
+
+@media (max-width: 767px) {
+  .col-md-4 {
+    flex-basis: calc(50% - 8px);
+  }
+}
+
+/* Alinea las tarjetas en la última fila hacia la izquierda */
+.row:last-child {
+  justify-content: flex-start;
+}
+
+.card {
+  width: calc(100% - 2px);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+.card-title {
+  color: #d81b60;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #000000;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.navbar-nav .nav-link {
+    color: #000000 !important;
+    font-size: 18px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #a8184d !important;
+    transform: scale(1.2);
+}
+
+
+.card-img-top{
+    border-radius: 8px 8px 0px 0px;
+}
+
+.card-title {
+    color: #d81b60;
+    font-weight: bold;
+}
+
+    .card-text {
+    color: #000000;
+}
+  
+.card:hover {
+    transform: scale(1.05); /* Cambia el factor de escala al hacer hover */
+}
+
+.btn-primary {
+    background-color: #d81b60;
+    border-color: #d81b60;
+    color: #fff;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #a8184d;
+    border-color: #a8184d;
+}
+
+/* Estilo para la barra de búsqueda */
+.input-group {
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
     display: flex;
-    justify-content: space-between; /* Para alinear elementos a ambos lados */
-    align-items: center; /* Para alinear verticalmente en el centro */
+    transition: transform 0.3s;
 }
 
-.logo img {
-    width: 100px; /* Ajusta el tamaño del logo según tu diseño */
+.input-group:hover {
+  transform: scale(1.05);
 }
 
-.nav-menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+.form-control {
+    flex-grow: 1;
+    border: none;
+    border-radius: 25px;
+    background-color: #fff;
+    color: #000000;
+    transition: border-color 0.3s, background-color 0.3s;
+    padding-left: 30px;
+    margin-top: 10px;
+}
+
+.form-control:focus {
+    border-color: #a8184d;
+    background-color: #fff;
+    box-shadow: none;
+}
+
+.input-group-append {
     display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-left: 0px;
 }
 
-.nav-menu li {
-    margin-right: 20px; /* Espaciado entre elementos de navegación */
+.btn-outline-secondary {
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    background-color: #d81b60;
 }
 
-.nav-menu li:last-child {
-    margin-right: 0; /* Elimina el margen derecho del último elemento */
+/* Estilo para el ícono de búsqueda */
+.fas.fa-search {
+    color: #fff;
+    font-size: 18px;
 }
 
-.nav-menu a {
-    text-decoration: none;
-    color: #000000; /* Cambia el color de enlace según tu diseño */
-    font-weight: bold; /* Cambia la fuente según tu diseño */
-    font-size: 16px; /* Cambia el tamaño de fuente según tu diseño */
+/* Estilo para la ventana emergente */
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    transition: transform 0.3s;
+    transform: scale(0.9);
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    background-color: #d81b60;
+    color: #fff;
+    border-bottom: none;
+}
+
+.modal-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.modal-body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.modal-footer {
+    background-color: #f0f0f0;
+    border-top: none;
+}
+  
+/* Estilo para el carrito de compras */
+.cart-icon {
+    position: fixed;
+    right: 20px;
+    top: 10px;
+    font-size: 24px;
+    color: #d81b60;
+    cursor: pointer;
+    transition: color 0.3s;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.cart-icon:hover {
+    color: #a8184d;
+}
+
+/* Estilo para el botón de búsqueda cuando se presiona */
+.btn-outline-secondary:hover {
+    background-color: #a8184d !important;
+    border-color: #a8184d !important;
+    color: #fff !important;
 }
