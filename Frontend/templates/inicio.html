@@ -3,6 +3,9 @@
 <head>
   <title>Catálogo de Pasteles</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.css') }}">
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -30,8 +33,19 @@
         </ul>
       </div>
     </div>
+    <!--Carrito de compras-->
+    <div class="cart-icon">
+      <i class="fas fa-shopping-cart"></i>
+    </div>
   </nav>
   <div class="container">
+    <!-- Barra de búsqueda -->
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Buscar pasteles..." id="searchInput">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="searchButton"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
     <h1>Catálogo de Pasteles</h1>
     <div class="row" id="pastelesCatalog">
       <!-- Aquí se mostrarán los pasteles dinámicamente -->
