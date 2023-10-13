@@ -62,8 +62,15 @@ def login():
                 'Sabor': row[3],
                 'Relleno': row[4],
                 'Precio':row[5],
-                'FechaIngreso': row[6]
+                'FechaIngreso': row[6],
+                'imagenSabor': row[3]
             }
+            if pastel['Sabor'] == 'Fresa' or pastel['Nombre'] == 'Pastel de Fresa':
+                pastel['imagenSabor'] = "../static/images/fresa.jpg"
+            elif pastel['Sabor'] == 'Chocolate' or pastel['Nombre'] == 'Pastel de Chocolate':
+                pastel['imagenSabor'] = "../static/images/chocolate.jpg"
+            else:
+                pastel['imagenSabor'] = "../static/images/blanco.jpg"
             pasteles.append(pastel) 
             
         return jsonify({'message': 'Credenciales válidas', 'Usuario': nombre_usuario, 'Menus': menus, 'Submenus': submenus, 'Pasteles': pasteles})
@@ -93,8 +100,17 @@ def catalogo_por_tipo(tipo_pastel):
             'Sabor': row[3],
             'Relleno': row[4],
             'Precio': row[5],
-            'FechaIngreso': row[6]
+            'FechaIngreso': row[6],
+            'imagenSabor': row[3]
         }
+        
+        if pastel['Sabor'] == 'Fresa' or pastel['Nombre'] == 'Pastel de Fresa':
+            pastel['imagenSabor'] = "../static/images/fresa.jpg"
+        elif pastel['Sabor'] == 'Chocolate' or pastel['Nombre'] == 'Pastel de Chocolate':
+            pastel['imagenSabor'] = "../static/images/chocolate.jpg"
+        else:
+            pastel['imagenSabor'] = "../static/images/blanco.jpg"
+            
         pasteles.append(pastel)
     if tipo_pastel != 'todos':
         # Seleccionar la estrategia adecuada según el tipo de pastel
