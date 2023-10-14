@@ -11,11 +11,11 @@ from reportlab.pdfgen import canvas
 # from Observer import PedidoObservable, ObservadorPedido
 import pyodbc
 
-app = Flask(__name__, template_folder="C:/Users/baril/Documents/8vo Semestre Sistemas/Análisis de Sistemas II/Rama de pruebas/Analisis/Frontend/templates",
-           static_folder="C:/Users/baril/Documents/8vo Semestre Sistemas/Análisis de Sistemas II/Rama de pruebas/Analisis/Frontend/static")
+app = Flask(__name__, template_folder="C:/Users/vicky/OneDrive/Escritorio/Analisis-Pruebas/Frontend/templates",
+        static_folder="C:/Users/vicky/OneDrive/Escritorio/Analisis-Pruebas/Frontend/static")
 CORS(app)
 
-folder="C:/Users/baril/Documents/8vo Semestre Sistemas/Análisis de Sistemas II/Rama de pruebas/Analisis/Frontend/templates"
+folder="C:/Users/vicky/OneDrive/Escritorio/Analisis-Pruebas/Frontend/templates"
 @app.route('/templates/<path:filename>')
 def serve_static(filename):
     return send_from_directory(folder, filename)
