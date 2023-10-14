@@ -49,4 +49,36 @@
 
         function finishPurchase() {
             document.querySelector('.progress-bar').style.width = '100%';
+            
+            // Código para crear un pedido al hacer clic en "Agregar al carrito"
+            // const agregarAlCarritoButton = document.getElementById('agregarAlCarrito');
+            // agregarAlCarritoButton.addEventListener('click', function () {
+            const usuario = localStorage.getItem("Usuario");
+            const cliente = usuario; 
+            const productos = ["Pastel de Chocolate"];
+
+            // Realiza una solicitud AJAX para crear un pedido al contado
+            $.ajax({
+                type: 'POST',
+                url: '/api/pedido',
+                contentType: 'application/json',
+                data: JSON.stringify({ cliente, productos }),
+                success: function (response) {
+                // Crea un enlace para descargar el PDF
+                const blob = new Blob([response], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'factura.pdf';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                $('#comprarModal').modal('hide');
+                },
+                error: function (error) {
+                // Maneja cualquier error que ocurra durante la solicitud
+                alert('Error al crear el pedido: ' + error.responseJSON.message);
+                }
+            });
+            // });
         }

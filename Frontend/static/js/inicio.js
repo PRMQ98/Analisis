@@ -12,7 +12,7 @@ const pasteles = pastelesResponse.Pasteles;
 
 if (pasteles && Array.isArray(pasteles)) {
   pasteles.forEach(pastel => {
-    // Crea las tarjetas de los pasteles
+    // Crea las tarjetas de los pastelesf
     const card = document.createElement("div");
     card.classList.add("col-md-4");
 
