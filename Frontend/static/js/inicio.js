@@ -50,7 +50,46 @@ if (pasteles && Array.isArray(pasteles)) {
     precioPastelInput.value = `Q${pastel.Precio}`; // Precio del pastel
 
     $('#comprarModal').modal('show');
-  });
+//     const agregarButton = document.getElementById("agregarAlCarrito");
+//     agregarButton.addEventListener('click', function () {
+//     // const nombrePastel = "Nada";
+//     // const precioPastel = "15.25";
+//     const nombrePastel = nombrePastelInput.value;
+//     const precioPastel = precioPastelInput.value;
+//     const precioNumerico = parseFloat(precioPastel.replace(/[^0-9.]/g, ''));
+//     const precioFormateado = precioNumerico.toFixed(2);
+
+//     // Almacena los datos en el almacenamiento local
+//     localStorage.setItem("nombrePastel", nombrePastel);
+//     localStorage.setItem("precioPastel", precioFormateado);
+//     console.log(nombrePastel, precioFormateado);
+//     $('#comprarModal').modal('hide');
+
+//   });
+    const agregarButton = document.getElementById("agregarAlCarrito");
+    agregarButton.addEventListener('click', function () {
+
+    const nombrePastel = nombrePastelInput.value;
+    const precioPastel = parseFloat(precioPastelInput.value.replace(/[^0-9.]/g, ''));
+    const precioFormateado = precioPastel.toFixed(2);
+
+    // Recupera la lista de pasteles del almacenamiento local (si existe)
+    const pastelesEnCarrito = JSON.parse(localStorage.getItem("pastelesEnCarrito")) || [];
+
+    // Agrega el pastel actual a la lista de pasteles en el carrito
+    const pastelEnCarrito = {
+    nombre: nombrePastel,
+    precio: precioFormateado,
+    };
+
+    pastelesEnCarrito.push(pastelEnCarrito);
+
+    // Guarda la lista actualizada de pasteles en el carrito en el almacenamiento local
+    localStorage.setItem("pastelesEnCarrito", JSON.stringify(pastelesEnCarrito));
+    $('#comprarModal').modal('hide');
+
+    });
+    });
 });
 } else {
 // Maneja el caso en el que no haya pasteles en la respuesta
@@ -107,32 +146,57 @@ if (usuario === "Administrador" && menus && menus.length && submenus && submenus
 }
 
 // Código para crear un pedido al hacer clic en "Agregar al carrito"
-const agregarAlCarritoButton = document.getElementById('agregarAlCarrito');
-agregarAlCarritoButton.addEventListener('click', function () {
-  const cliente = usuario; 
-  const productos = ["Pastel de Chocolate"];
+// const agregarAlCarritoButton = document.getElementById('agregarAlCarrito');
+// agregarAlCarritoButton.addEventListener('click', function () {
+//   const cliente = usuario; 
+//   const productos = ["Pastel de Chocolate"];
 
-  // Realiza una solicitud AJAX para crear un pedido al contado
-  $.ajax({
-    type: 'POST',
-    url: '/api/pedido',
-    contentType: 'application/json',
-    data: JSON.stringify({ cliente, productos }),
-    success: function (response) {
-      // Crea un enlace para descargar el PDF
-      const blob = new Blob([response], { type: 'application/pdf' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'factura.pdf';
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      $('#comprarModal').modal('hide');
-    },
-    error: function (error) {
-      // Maneja cualquier error que ocurra durante la solicitud
-      alert('Error al crear el pedido: ' + error.responseJSON.message);
-    }
-  });
-});
+//   // Realiza una solicitud AJAX para crear un pedido al contado
+//   $.ajax({
+//     type: 'POST',
+//     url: '/api/pedido',
+//     contentType: 'application/json',
+//     data: JSON.stringify({ cliente, productos }),
+//     success: function (response) {
+//       // Crea un enlace para descargar el PDF
+//       const blob = new Blob([response], { type: 'application/pdf' });
+//       const url = window.URL.createObjectURL(blob);
+//       const a = document.createElement('a');
+//       a.href = url;
+//       a.download = 'factura.pdf';
+//       document.body.appendChild(a);
+//       a.click();
+//       window.URL.revokeObjectURL(url);
+//       $('#comprarModal').modal('hide');
+//     },
+//     error: function (error) {
+//       // Maneja cualquier error que ocurra durante la solicitud
+//       alert('Error al crear el pedido: ' + error.responseJSON.message);
+//     }
+//   });
+// });
+
+
+function agregarAlCarrito() {
+    // Obtener los parámetros de la URL
+    // const params = new URLSearchParams(window.location.search);
+    // const nombrePastel = params.get("nombrePastel");
+    // const precioPastel = params.get("precioPastel");
+
+    // // Actualizar los elementos HTML con los datos
+    // const nombrePastelElement = document.getElementById("nombrePastel");
+    // const precioPastelElement = document.getElementById("precioPastel");
+
+    // nombrePastelElement.textContent = nombrePastel;
+    // precioPastelElement.textContent = precioPastel;
+    // console.log(nombrePastel, precioPastel);
+    // const nombrePastel = document.getElementById("nombrePastel").textContent;
+    // const precioPastel = document.getElementById("precioPastel").textContent;
+    const nombrePastel = "Nada";
+    const precioPastel = "15.25";
+
+    // Almacena los datos en el almacenamiento local
+    localStorage.setItem("nombrePastel", nombrePastel);
+    localStorage.setItem("precioPastel", precioPastel);
+    console.log(nombrePastel, precioPastel);
+}

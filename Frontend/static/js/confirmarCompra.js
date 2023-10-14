@@ -1,5 +1,5 @@
         // Precios y subtotal inicial
-        const pricePerItem = 75.00; // Precio por artículo en quetzales
+        const pricePerItem = localStorage.getItem("precioPastel"); // Precio por artículo en quetzales
         let quantity = 1;
         let subtotal = pricePerItem;
 
@@ -82,3 +82,86 @@
             });
             // });
         }
+
+        //   document.addEventListener("DOMContentLoaded", function () {
+        //     // Obtener los parámetros de la URL
+        //     const params = new URLSearchParams(window.location.search);
+        //     const nombrePastel = params.get("nombrePastel");
+        //     const precioPastel = params.get("precioPastel");
+        
+        //     // Crear un nuevo elemento de producto con los datos de compra
+        //     const productList = document.getElementById("productList");
+        
+        //     const li = document.createElement("li");
+        //     li.className = "product";
+        //     li.innerHTML = `
+        //         <div class="product-details">
+        //             <h2>${nombrePastel}</h2>
+        //             <p>Precio: <span>${precioPastel}</span></p>
+        //         </div>
+        //         <div class="quantity">
+        //             <button onclick="decrementQuantity(this)">-</button>
+        //             <span>1</span>
+        //             <button onclick="incrementQuantity(this)">+</button>
+        //         </div>
+        //         <button class="delete-button" onclick="removeProduct(this)"><i class="fas fa-trash-alt"></i></button>
+        //     `;
+        
+        //     // Agregar el nuevo producto a la lista
+        //     productList.appendChild(li);
+        // });
+        
+
+
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     // Obtener los datos del pastel del almacenamiento local
+        //     const nombrePastel = localStorage.getItem("nombrePastel");
+        //     const precioPastel = localStorage.getItem("precioPastel");
+        
+        //     // Actualizar los elementos HTML con los datos
+        //     const nombrePastelElement = document.getElementById("nombrePastel");
+        //     const precioPastelElement = document.getElementById("precioPastel");
+        //     const totalPastelElement = document.getElementById("totalPrice");
+        //     const subtotalPastelElement = document.getElementById("subtotalPrice");
+        
+        //     nombrePastelElement.textContent = nombrePastel;
+        //     precioPastelElement.textContent = precioPastel;
+        //     totalPastelElement.textContent = precioPastel;
+        //     subtotalPastelElement.textContent = precioPastel;
+        // });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Obtener la lista de pasteles del almacenamiento local
+            const pastelesEnCarrito = JSON.parse(localStorage.getItem("pastelesEnCarrito")) || [];
+        
+            // Obtén una referencia a la lista de productos en el carrito
+            const productList = document.getElementById("productList");
+        
+            // Recorre la lista de pasteles en el carrito y agrega cada pastel a la lista
+            pastelesEnCarrito.forEach(pastel => {
+                const li = document.createElement("li");
+                li.className = "product";
+                li.innerHTML = `
+                    <div class="product-details">
+                        <h2>${pastel.nombre}</h2>
+                        <p>Precio: Q${pastel.precio}</p>
+                    </div>
+                    <div class="quantity">
+                        <button onclick="decrementQuantity(this)">-</button>
+                        <span>1</span>
+                        <button onclick="incrementQuantity(this)">+</button>
+                    </div>
+                    <button class="delete-button" onclick="removeProduct(this)"><i class="fas fa-trash-alt"></i></button>
+                `;
+                productList.appendChild(li);
+            });
+        
+            // Calcula el subtotal y total, y actualiza los elementos HTML correspondientes
+            const subtotalPrice = pastelesEnCarrito.reduce((total, pastel) => total + parseFloat(pastel.precio.replace(/[^0-9.]/g, '')), 0);
+            const totalPriceElement = document.getElementById("totalPrice");
+            const subtotalPriceElement = document.getElementById("subtotalPrice");
+            totalPriceElement.textContent = subtotalPrice.toFixed(2);
+            subtotalPriceElement.textContent = subtotalPrice.toFixed(2);
+        });
+        
+        
