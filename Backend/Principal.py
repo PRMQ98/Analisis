@@ -10,12 +10,12 @@ from reportlab.pdfgen import canvas
 # from PastelFactory import Pastel, PastelHorneado, PastelFrio, PastelDeYogurt
 # from Observer import PedidoObservable, ObservadorPedido
 import pyodbc
-
-app = Flask(__name__, template_folder="C:/Users/vicky/OneDrive/Escritorio/Analisis-Pruebas/Frontend/templates",
-        static_folder="C:/Users/vicky/OneDrive/Escritorio/Analisis-Pruebas/Frontend/static")
+# C:\Users\baril\Documents\8vo Semestre Sistemas\Desarrollo Web\Analisis\Frontend\templates
+app = Flask(__name__, template_folder="C:/Users/baril/Documents/8vo Semestre Sistemas/Desarrollo Web/Analisis/Frontend/templates",
+        static_folder="C:/Users/baril/Documents/8vo Semestre Sistemas/Desarrollo Web/Analisis/Frontend/static")
 CORS(app)
 
-folder="C:/Users/vicky/OneDrive/Escritorio/Analisis-Pruebas/Frontend/templates"
+folder="C:/Users/baril/Documents/8vo Semestre Sistemas/Desarrollo Web/Analisis/Frontend/templates"
 @app.route('/templates/<path:filename>')
 def serve_static(filename):
     return send_from_directory(folder, filename)
