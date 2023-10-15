@@ -52,6 +52,7 @@
             const pastelesEnCarrito = JSON.parse(localStorage.getItem("pastelesEnCarrito")) || [];
             const usuario = localStorage.getItem("Usuario");
             pastelesEnCarrito.forEach(pastel => {
+                const cantidad = pastel.cantidad / pastel.cantidad;
                 const li = document.createElement("li");
                 li.className = "product";
                 li.innerHTML = `
@@ -61,7 +62,7 @@
                     </div>
                     <div class="quantity">
                         <button onclick="decrementQuantity('${pastel.nombre}')">-</button>
-                        <span>${pastel.cantidad}</span>
+                        <span>${cantidad}</span>
                         <button onclick="incrementQuantity('${pastel.nombre}')">+</button>
                     </div>
                     <button class="delete-button" onclick="removeProduct('${pastel.nombre}')"><i class="fas fa-trash-alt"></i></button>
@@ -71,8 +72,8 @@
 
                 // Calcula el subtotal y total para este pastel y añádelo a los totales generales
                 const precioNumerico = parseFloat(pastel.precio.replace(/[^0-9.]/g, ''));
-                subtotalPrice += pastel.cantidad * precioNumerico;
-                totalPrice += pastel.cantidad * precioNumerico;
+                subtotalPrice += cantidad * precioNumerico;
+                totalPrice += cantidad * precioNumerico;
             });
 
             // Actualiza el subtotal y total en la interfaz
@@ -101,9 +102,6 @@
             
             updateCartUI();
         }
-        
-
-        // Otras funciones como showPaymentMethod y finishPurchase pueden permanecer sin cambios
 
         document.addEventListener("DOMContentLoaded", function () {
             // Obtener la lista de pasteles del carrito desde el almacenamiento local
@@ -120,6 +118,7 @@
             let totalPrice = 0;
 
             pastelesEnCarrito.forEach(pastel => {
+                const cantidad = pastel.cantidad / pastel.cantidad;
                 const li = document.createElement("li");
                 li.className = "product";
                 li.innerHTML = `
@@ -129,7 +128,7 @@
                     </div>
                     <div class="quantity">
                         <button onclick="decrementQuantity('${pastel.nombre}')">-</button>
-                        <span>${pastel.cantidad}</span>
+                        <span>${cantidad}</span>
                         <button onclick="incrementQuantity('${pastel.nombre}')">+</button>
                     </div>
                     <button class="delete-button" onclick="removeProduct('${pastel.nombre}')"><i class="fas fa-trash-alt"></i></button>
@@ -139,8 +138,8 @@
 
                 // Calcula el subtotal y total para este pastel y añádelo a los totales generales
                 const precioNumerico = parseFloat(pastel.precio.replace(/[^0-9.]/g, ''));
-                subtotalPrice += pastel.cantidad * precioNumerico;
-                totalPrice += pastel.cantidad * precioNumerico;
+                subtotalPrice += cantidad * precioNumerico;
+                totalPrice += cantidad * precioNumerico;
             });
 
             // Actualiza el subtotal y total en la interfaz

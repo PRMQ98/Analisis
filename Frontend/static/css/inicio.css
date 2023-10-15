@@ -3,6 +3,13 @@ body {
     background-color: #f0f0f0;
 }
 
+.fixed-cart-icon {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+}
+
 h1 {
   margin-bottom: 20px;
 }
