@@ -1,6 +1,11 @@
 // Recupera los pasteles del almacenamiento local
 const pasteles = JSON.parse(localStorage.getItem("Pasteles"));
 
+function almacenarUsuarioEnLocalStorage() {
+    const usuario = localStorage.getItem("Usuario");
+    localStorage.setItem("nombreUsuario", usuario);
+}
+
 // Obtén la referencia al elemento donde se mostrarán los pasteles
 const pastelesCatalog = document.getElementById("pastelesCatalog");
 
@@ -42,7 +47,7 @@ if (pasteles && Array.isArray(pasteles)) {
     const tipoPastelInput = document.getElementById('tipoPastel');
     const saborPastelInput = document.getElementById('saborPastel');
     const precioPastelInput = document.getElementById('precioPastel');
-
+    almacenarUsuarioEnLocalStorage();
     nombreClienteInput.value = usuario; // Nombre del cliente
     nombrePastelInput.value = pastel.Nombre;
     tipoPastelInput.value = pastel.Tipo; // Tipo del pastel
@@ -66,29 +71,38 @@ if (pasteles && Array.isArray(pasteles)) {
 //     $('#comprarModal').modal('hide');
 
 //   });
-    const agregarButton = document.getElementById("agregarAlCarrito");
-    agregarButton.addEventListener('click', function () {
-
+const agregarButton = document.getElementById("agregarAlCarrito");
+agregarButton.addEventListener('click', function () {
     const nombrePastel = nombrePastelInput.value;
-    const precioPastel = parseFloat(precioPastelInput.value.replace(/[^0-9.]/g, ''));
-    const precioFormateado = precioPastel.toFixed(2);
+    const precioPastel = precioPastelInput.value;
+    const usuario = localStorage.getItem("nombreUsuario");
+    const precioNumerico = parseFloat(precioPastel.replace(/[^0-9.]/g, ''));
+    const precioFormateado = precioNumerico.toFixed(2);
 
-    // Recupera la lista de pasteles del almacenamiento local (si existe)
+    // Obtén la lista de productos en el carrito del almacenamiento local
     const pastelesEnCarrito = JSON.parse(localStorage.getItem("pastelesEnCarrito")) || [];
 
-    // Agrega el pastel actual a la lista de pasteles en el carrito
-    const pastelEnCarrito = {
-    nombre: nombrePastel,
-    precio: precioFormateado,
-    };
+    // Verifica si el producto ya existe en el carrito
+    const productoExistente = pastelesEnCarrito.find(pastel => pastel.nombre === nombrePastel);
 
-    pastelesEnCarrito.push(pastelEnCarrito);
+    if (productoExistente) {
+        // Si el producto ya existe, incrementa la cantidad
+        productoExistente.cantidad += 1;
+    } else {
+        // Si el producto no existe, agrégalo al carrito
+        pastelesEnCarrito.push({
+            nombre: nombrePastel,
+            precio: precioFormateado,
+            cantidad: 1
+        });
+    }
 
-    // Guarda la lista actualizada de pasteles en el carrito en el almacenamiento local
+    // Actualiza el carrito en el almacenamiento local
     localStorage.setItem("pastelesEnCarrito", JSON.stringify(pastelesEnCarrito));
-    $('#comprarModal').modal('hide');
 
-    });
+    $('#comprarModal').modal('hide');
+});
+
     });
 });
 } else {
@@ -145,58 +159,40 @@ if (usuario === "Administrador" && menus && menus.length && submenus && submenus
   });
 }
 
-// Código para crear un pedido al hacer clic en "Agregar al carrito"
-// const agregarAlCarritoButton = document.getElementById('agregarAlCarrito');
-// agregarAlCarritoButton.addEventListener('click', function () {
-//   const cliente = usuario; 
-//   const productos = ["Pastel de Chocolate"];
-
-//   // Realiza una solicitud AJAX para crear un pedido al contado
-//   $.ajax({
-//     type: 'POST',
-//     url: '/api/pedido',
-//     contentType: 'application/json',
-//     data: JSON.stringify({ cliente, productos }),
-//     success: function (response) {
-//       // Crea un enlace para descargar el PDF
-//       const blob = new Blob([response], { type: 'application/pdf' });
-//       const url = window.URL.createObjectURL(blob);
-//       const a = document.createElement('a');
-//       a.href = url;
-//       a.download = 'factura.pdf';
-//       document.body.appendChild(a);
-//       a.click();
-//       window.URL.revokeObjectURL(url);
-//       $('#comprarModal').modal('hide');
-//     },
-//     error: function (error) {
-//       // Maneja cualquier error que ocurra durante la solicitud
-//       alert('Error al crear el pedido: ' + error.responseJSON.message);
-//     }
-//   });
-// });
-
 
 function agregarAlCarrito() {
-    // Obtener los parámetros de la URL
-    // const params = new URLSearchParams(window.location.search);
-    // const nombrePastel = params.get("nombrePastel");
-    // const precioPastel = params.get("precioPastel");
 
-    // // Actualizar los elementos HTML con los datos
-    // const nombrePastelElement = document.getElementById("nombrePastel");
-    // const precioPastelElement = document.getElementById("precioPastel");
-
-    // nombrePastelElement.textContent = nombrePastel;
-    // precioPastelElement.textContent = precioPastel;
-    // console.log(nombrePastel, precioPastel);
-    // const nombrePastel = document.getElementById("nombrePastel").textContent;
-    // const precioPastel = document.getElementById("precioPastel").textContent;
     const nombrePastel = "Nada";
     const precioPastel = "15.25";
+    const usuario = localStorage.getItem("Usuario");
 
     // Almacena los datos en el almacenamiento local
     localStorage.setItem("nombrePastel", nombrePastel);
     localStorage.setItem("precioPastel", precioPastel);
-    console.log(nombrePastel, precioPastel);
+    localStorage.setItem("Usuario", usuario);
+    console.log(nombrePastel, precioPastel, usuario);
 }
+
+document.getElementById('searchButton').addEventListener('click', function () {
+    const descripcion = document.getElementById('searchInput').value;
+
+    axios.post('/api/buscar_pasteles', { descripcion })
+    .then(response => {
+        const resultados = response.data.resultados;
+        const resultadosContainer = document.getElementById('pastelesCatalog');
+
+        if (resultados.length > 0) {
+            resultadosContainer.innerHTML = '';
+            resultados.forEach(result => {
+                const resultadoElement = document.createElement('p');
+                resultadoElement.textContent = result;
+                resultadosContainer.appendChild(resultadoElement);
+            });
+        } else {
+            resultadosContainer.innerHTML = 'No se encontraron pasteles que coincidan con la búsqueda.';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});

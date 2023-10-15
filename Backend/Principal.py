@@ -5,8 +5,10 @@ from connection import connection_string
 from collections import defaultdict
 from StrategyMethod import *
 from FactoryMethod import *
+from interprete import BuscadorPasteles
 from io import BytesIO
 from reportlab.pdfgen import canvas
+from unidecode import unidecode
 # from PastelFactory import Pastel, PastelHorneado, PastelFrio, PastelDeYogurt
 # from Observer import PedidoObservable, ObservadorPedido
 import pyodbc
@@ -174,6 +176,15 @@ def crear_pedido_contado():
     return response
     # return jsonify({"factura": factura})
     #return send_file(factura, as_attachment=True, attachment_filename='factura.pdf')
+
+@app.route('/api/buscar_pasteles', methods=['POST'])
+def buscar_pasteles():
+    data = request.get_json()
+    descripcion = data.get('descripcion')
+    buscador = BuscadorPasteles()
+    pasteles_coincidentes = buscador.buscar_pasteles(descripcion)
+
+    return jsonify({'resultados': pasteles_coincidentes})
 
 
 if __name__ == "__main__":
