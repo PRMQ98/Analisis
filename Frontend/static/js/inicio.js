@@ -174,25 +174,46 @@ function agregarAlCarrito() {
 }
 
 document.getElementById('searchButton').addEventListener('click', function () {
-    const descripcion = document.getElementById('searchInput').value;
+  const descripcion = document.getElementById('searchInput').value;
 
-    axios.post('/api/buscar_pasteles', { descripcion })
-    .then(response => {
-        const resultados = response.data.resultados;
-        const resultadosContainer = document.getElementById('pastelesCatalog');
+  axios.post('/api/buscar_pasteles', { descripcion })
+  .then(response => {
+      const resultados = response.data.resultados;
+      const resultadosContainer = document.getElementById('pastelesCatalog');
 
-        if (resultados.length > 0) {
-            resultadosContainer.innerHTML = '';
-            resultados.forEach(result => {
-                const resultadoElement = document.createElement('p');
-                resultadoElement.textContent = result;
-                resultadosContainer.appendChild(resultadoElement);
-            });
-        } else {
-            resultadosContainer.innerHTML = 'No se encontraron pasteles que coincidan con la búsqueda.';
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+      // Limpia el contenedor antes de agregar nuevos resultados
+      resultadosContainer.innerHTML = '';
+
+      if (resultados.length > 0) {
+          resultados.forEach(pastel => {
+              // Crea las tarjetas de los pasteles
+              const card = document.createElement("div");
+              card.classList.add("col-md-4");
+
+              card.innerHTML = `
+                <div class="card mb-4 shadow-sm">
+                  <img src="${pastel.imagenSabor}" class="card-img-top" alt="Imagen del pastel">
+                  <div class="card-body">
+                    <h5 class="card-title">${pastel.nombre}</h5>
+                    <p class="card-text">
+                      <strong>Tipo:</strong> ${pastel.tipo}<br>
+                      <strong>Sabor:</strong> ${pastel.sabor}<br>
+                      <strong>Relleno:</strong> ${pastel.relleno}<br>
+                      <strong>Precio:</strong> Q${pastel.precio}<br>
+                    </p>
+                    <button class="btn btn-primary">Comprar</button>
+                  </div>
+                </div>
+              `;
+
+              resultadosContainer.appendChild(card);
+          });
+      } else {
+          resultadosContainer.innerHTML = 'No se encontraron pasteles que coincidan con la búsqueda.';
+      }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
 });
+

@@ -1,98 +1,88 @@
-# class BuscadorPasteles:
-#     def __init__(self):
-#         self.lista_pasteles = ["pastel de chocolate", "pastel de fresa", "pastel de vainilla", "pastel de fresa frio"]
-
-#     def evaluar_expresion(self, expresion, descripcion):
-#         palabras = descripcion.split()
-#         operador = None
-#         resultado = True
-#         # Iteramos a través de cada palabra en la descripción
-#         for palabra in palabras:
-#             if palabra.lower() == "y":
-#                 operador = "and"
-#             elif palabra.lower() == "o":
-#                 operador = "or"
-#             else:
-#                 # Comprobar si la palabra actual está presente en la expresión de búsqueda.
-#                 palabra_valida = palabra.lower() in expresion
-#                 if operador == "or":
-#                     resultado = resultado or palabra_valida
-#                 else:
-#                     resultado = palabra_valida
-
-#         return resultado
-
-#     def buscar_pasteles(self):
-#         # while True:
-#         #     descripcion = input("¿Qué desea buscar?: ").lower()
-
-#         #     if descripcion == "salir":
-#         #         break
-
-#         #     # Crear una lista de pasteles que coinciden con la expresión de búsqueda.
-#         #     pasteles_coincidentes = [pastel for pastel in self.lista_pasteles if self.evaluar_expresion(pastel, descripcion)]
-
-#         #     if pasteles_coincidentes:
-#         #         print("Se encontraron los siguientes pasteles que coinciden:")
-#         #         for pastel in pasteles_coincidentes:
-#         #             print(pastel)
-#         #     else:
-#         #         print("No se encontraron pasteles que coincidan con la búsqueda.")
-#         pasteles_coincidentes = [pastel for pastel in self.lista_pasteles if self.evaluar_expresion(pastel, descripcion)]
-#         return pasteles_coincidentes
-
-# if __name__ == "__main__":
-#     buscador = BuscadorPasteles()
-#     buscador.buscar_pasteles()
 from connection import connection_string
 import pyodbc
+from unidecode import unidecode
 
 class BuscadorPasteles:
     def __init__(self):
         connection = pyodbc.connect(connection_string)
-        # Realiza la consulta a la base de datos para buscar el tipo de cliente
         cursor = connection.cursor()
         pasteles_query = "SELECT * FROM Esquema_analisis.Pastel"
         cursor.execute(pasteles_query)
-        datos = cursor.fetchall()
-        self.lista_pasteles = datos
-        # self.lista_pasteles = ["pastel de chocolate", "pastel de fresa", "pastel de vainilla", "pastel de fresa frio"]
-
-    def evaluar_expresion(self, expresion, descripcion):
-        palabras = descripcion.split()
-        operador = None
-        resultado = True
-        # Iteramos a través de cada palabra en la descripción
-        for palabra in palabras:
-            if palabra.lower() == "y":
-                operador = "and"
-            elif palabra.lower() == "o":
-                operador = "or"
-            else:
-                # Comprobar si la palabra actual está presente en la expresión de búsqueda.
-                palabra_valida = palabra.lower() in expresion
-                if operador == "or":
-                    resultado = resultado or palabra_valida
-                else:
-                    resultado = palabra_valida
-
-        return resultado
+        self.lista_pasteles = cursor.fetchall()
 
     def buscar_pasteles(self, descripcion):
-        # Normaliza la descripción y la base de datos
-        descripcion = unidecode(descripcion.lower())
-        lista_pasteles_normalizada = [unidecode(pastel[1].lower()) for pastel in self.lista_pasteles]
+        interpreter = BusquedaInterpreter(self.lista_pasteles)
+        resultados = interpreter.interpret(descripcion)
+        return resultados
 
-        pasteles_coincidentes = [pastel[1] for pastel in self.lista_pasteles if self.evaluar_expresion(pastel[1], descripcion)]
-        return pasteles_coincidentes
+class BusquedaInterpreter:
+    def __init__(self, lista_pasteles):
+        self.lista_pasteles = lista_pasteles
+
+    def interpret(self, query):
+        query = query.lower()  # Convertir la consulta a minúsculas
+
+        palabras_clave = query.split()
+
+        # Definir los conectores a eliminar
+        conectores = ["y", "de", "con"]
+
+        # Eliminar los conectores de la consulta
+        palabras_clave = [palabra for palabra in palabras_clave if palabra not in conectores]
+
+        resultados = []
+
+        if "pastel" in palabras_clave:
+            palabras_clave.remove("pastel")
+            for pastel in self.lista_pasteles:
+                pastel_dict = {
+                    'id': pastel[0],
+                    'nombre': pastel[1],
+                    'tipo': pastel[2],
+                    'sabor': pastel[3],
+                    'relleno': pastel[4],
+                    'precio': float(pastel[5]),
+                    'fecha': pastel[6]
+                }
+
+                descripcion_coincide = self.evaluar_descripcion(pastel_dict, palabras_clave)
+                if descripcion_coincide:
+                    self.asignar_imagen(pastel_dict)
+                    resultados.append(pastel_dict)
+        else:
+            for pastel in self.lista_pasteles:
+                pastel_dict = {
+                    'id': pastel[0],
+                    'nombre': pastel[1],
+                    'tipo': pastel[2],
+                    'sabor': pastel[3],
+                    'relleno': pastel[4],
+                    'precio': float(pastel[5]),
+                    'fecha': pastel[6]
+                }
+
+                descripcion_coincide = self.evaluar_descripcion(pastel_dict, palabras_clave)
+                if descripcion_coincide:
+                    self.asignar_imagen(pastel_dict)
+                    resultados.append(pastel_dict)
+
+        return resultados
+
+
+
+    def evaluar_descripcion(self, pastel, palabras_clave):
+        for palabra in palabras_clave:
+            if palabra in pastel['nombre'].lower() or palabra in pastel['sabor'].lower() \
+               or palabra in pastel['tipo'].lower() or palabra in pastel['relleno'].lower():
+                return True
+        return False
     
-    # def buscar_pasteles(self, descripcion):  # Añadir el argumento 'descripcion' aquí
-    #     # Resto del código sigue igual
-    #     pasteles_coincidentes = [pastel for pastel in self.lista_pasteles if self.evaluar_expresion(pastel, descripcion)]
-    #     return pasteles_coincidentes
-        # if pasteles_coincidentes:
-        #     print("Se encontraron los siguientes pasteles que coinciden:")
-        #     for pastel in pasteles_coincidentes:
-        #         print(pastel)
-        # else:
-        #     print("No se encontraron pasteles que coincidan con la búsqueda.")
+    def asignar_imagen(self, pastel):
+        if pastel['sabor'].lower() == 'fresa' or pastel['nombre'].lower() == 'pastel de fresa':
+            pastel['imagenSabor'] = "../static/images/fresa.jpg"
+        elif pastel['sabor'].lower() == 'chocolate' or pastel['nombre'].lower() == 'pastel de chocolate':
+            pastel['imagenSabor'] = "../static/images/chocolate.jpg"
+        else:
+            pastel['imagenSabor'] = "../static/images/blanco.jpg"
+
+
