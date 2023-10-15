@@ -41,36 +41,20 @@ if (pasteles && Array.isArray(pasteles)) {
   // Obtener el botón "Comprar" dentro de esta tarjeta y agregar el evento de clic
   const comprarButton = card.querySelector('.btn.btn-primary');
   comprarButton.addEventListener('click', function () {
-    // Aquí puedes usar 'pastel' para obtener la información correcta del pastel
+    
     const nombreClienteInput = document.getElementById('nombreCliente');
     const nombrePastelInput = document.getElementById('nombrePastel');
     const tipoPastelInput = document.getElementById('tipoPastel');
     const saborPastelInput = document.getElementById('saborPastel');
     const precioPastelInput = document.getElementById('precioPastel');
     almacenarUsuarioEnLocalStorage();
-    nombreClienteInput.value = usuario; // Nombre del cliente
+    nombreClienteInput.value = usuario;
     nombrePastelInput.value = pastel.Nombre;
-    tipoPastelInput.value = pastel.Tipo; // Tipo del pastel
-    saborPastelInput.value = pastel.Sabor; // Sabor del pastel
-    precioPastelInput.value = `Q${pastel.Precio}`; // Precio del pastel
+    tipoPastelInput.value = pastel.Tipo;
+    saborPastelInput.value = pastel.Sabor;
+    precioPastelInput.value = `Q${pastel.Precio}`;
 
     $('#comprarModal').modal('show');
-//     const agregarButton = document.getElementById("agregarAlCarrito");
-//     agregarButton.addEventListener('click', function () {
-//     // const nombrePastel = "Nada";
-//     // const precioPastel = "15.25";
-//     const nombrePastel = nombrePastelInput.value;
-//     const precioPastel = precioPastelInput.value;
-//     const precioNumerico = parseFloat(precioPastel.replace(/[^0-9.]/g, ''));
-//     const precioFormateado = precioNumerico.toFixed(2);
-
-//     // Almacena los datos en el almacenamiento local
-//     localStorage.setItem("nombrePastel", nombrePastel);
-//     localStorage.setItem("precioPastel", precioFormateado);
-//     console.log(nombrePastel, precioFormateado);
-//     $('#comprarModal').modal('hide');
-
-//   });
 const agregarButton = document.getElementById("agregarAlCarrito");
 agregarButton.addEventListener('click', function () {
     const nombrePastel = nombrePastelInput.value;

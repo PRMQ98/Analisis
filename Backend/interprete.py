@@ -20,11 +20,9 @@ class BusquedaInterpreter:
         self.lista_pasteles = lista_pasteles
 
     def interpret(self, query):
-        query = query.lower()  # Convertir la consulta a minúsculas
+        query = query.lower()
 
         palabras_clave = query.split()
-
-        # Definir los conectores a eliminar
         conectores = ["y", "de", "con"]
 
         # Eliminar los conectores de la consulta

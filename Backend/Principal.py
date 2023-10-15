@@ -9,8 +9,6 @@ from interprete import BuscadorPasteles
 from io import BytesIO
 from reportlab.pdfgen import canvas
 from unidecode import unidecode
-# from PastelFactory import Pastel, PastelHorneado, PastelFrio, PastelDeYogurt
-# from Observer import PedidoObservable, ObservadorPedido
 import pyodbc
 # C:\Users\baril\Documents\8vo Semestre Sistemas\Desarrollo Web\Analisis\Frontend\templates
 app = Flask(__name__, template_folder="C:/Users/baril/Documents/8vo Semestre Sistemas/Desarrollo Web/Analisis/Frontend/templates",
@@ -174,8 +172,6 @@ def crear_pedido_contado():
         factura.close()
 
     return response
-    # return jsonify({"factura": factura})
-    #return send_file(factura, as_attachment=True, attachment_filename='factura.pdf')
 
 @app.route('/api/buscar_pasteles', methods=['POST'])
 def buscar_pasteles():
