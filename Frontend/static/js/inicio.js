@@ -232,7 +232,7 @@ function comprarPastel(pastel) {
   const saborPastelInput = document.getElementById('saborPastel');
   const descripcionPastel = document.getElementById("descripcionPastel");
   const precioPastelInput = document.getElementById('precioPastel');
-  const idPastel = pastel.Id;
+  const idPastel = pastel.id;
 
   nombreClienteInput.value = usuario;
   nombrePastelInput.value = pastel.nombre;
@@ -252,4 +252,43 @@ function comprarPastel(pastel) {
     });
 
   $('#comprarModal').modal('show');
+  const agregarButton = document.getElementById("agregarAlCarrito");
+
+    agregarButton.addEventListener('click', function () {
+        const nombrePastel = nombrePastelInput.value;
+        const precioPastel = precioPastelInput.value;
+        const usuario = localStorage.getItem("nombreUsuario");
+        const precioNumerico = parseFloat(precioPastel.replace(/[^0-9.]/g, ''));
+        const precioFormateado = precioNumerico.toFixed(2);
+    
+        // Obtén la lista de productos en el carrito del almacenamiento local
+        const pastelesEnCarrito = JSON.parse(localStorage.getItem("pastelesEnCarrito")) || [];
+    
+        // Verifica si el producto ya existe en el carrito
+        const productoExistente = pastelesEnCarrito.find(pastel => pastel.nombre === nombrePastel);
+    
+        if (productoExistente) {
+            // Si el producto ya existe, incrementa la cantidad
+            // productoExistente.cantidad += 1;
+            productoExistente.cantidad = productoExistente.cantidad;
+        } else {
+            // Si el producto no existe, agréalo al carrito
+            pastelesEnCarrito.push({
+                nombre: nombrePastel,
+                precio: precioFormateado,
+                cantidad: 1
+            });
+        }
+    
+        // Actualiza el carrito en el almacenamiento local
+        localStorage.setItem("pastelesEnCarrito", JSON.stringify(pastelesEnCarrito));
+    
+        // Actualiza el contador en la barra de navegación
+        const cartCounter = document.getElementById("cart-counter");
+        const totalProductosEnCarrito = pastelesEnCarrito.reduce((total, pastel) => total + pastel.cantidad, 0);
+        cartCounter.textContent = totalProductosEnCarrito;
+    
+        $('#comprarModal').modal('hide');
+    });
+    
 }
