@@ -29,29 +29,31 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         console.error("Error al realizar la solicitud:", error);
       });
   });
+  
   function validatePassword(password) {
-      var passwordError = document.getElementById("passwordError");
-      
-      var criteria = [];
-      
-      // Verificar si la contraseña contiene al menos 8 caracteres
-      if (password.length < 8) {
-          criteria.push("al menos 8 caracteres");
-      }
-      
-      // Verificar si la contraseña contiene al menos una letra mayúscula, un número y un carácter especial
-      if (!/(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])/.test(password)) {
-          criteria.push("una letra mayúscula, un número y un carácter especial");
-      }
-      
-      // Verificar si la contraseña contiene los caracteres "." o "/"
-      if (/[./]/.test(password)) {
-          criteria.push("no puede contener los caracteres '.' o '/'");
-      } 
-      
-      if (criteria.length > 0) {
-          passwordError.textContent = "La contraseña debe contener " + criteria.join(", ") + ".";
-      } else {
-          passwordError.textContent = ""; // Borrar el mensaje de error
-      }
+    var passwordError = document.getElementById("passwordError");
+    
+    var criteria = [];
+
+    if (password.length === 0) {
+        passwordError.textContent = "";
+        return;
     }
+    if (password.length < 8) {
+        criteria.push("al menos 8 caracteres");
+    }
+    
+    if (!/(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])/.test(password)) {
+        criteria.push("una letra mayúscula, un número y un carácter especial");
+    }
+    
+    if (/[./]/.test(password)) {
+        criteria.push("no puede contener los caracteres '.' '/'");
+    } 
+    
+    if (criteria.length > 0) {
+        passwordError.textContent = "La contraseña debe contener " + criteria.join(", ") + ".";
+    } else {
+        passwordError.textContent = "";
+    }
+}

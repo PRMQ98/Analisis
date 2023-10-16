@@ -78,6 +78,25 @@ h1 {
     transform: scale(1.2);
 }
 
+.fas.fa-shopping-cart {
+  font-size: 25px;
+  border: none;
+  color: #d81b60;
+}
+
+.contador {
+  width: 16px;
+  height: 10 px;
+  border-radius: 50%;
+  background-color: #f36207;
+  display:inline-flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-size: 10px;
+  color: #ffffff;
+  font-weight: bold;
+}
 
 .card-img-top{
     border-radius: 8px 8px 0px 0px;

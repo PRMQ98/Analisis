@@ -48,9 +48,9 @@ def login():
             menus = ['Adminsitracion']
             submenus = ['Pedidos','Crear pasteles', 'Descuentos', 'Clientes']
             # submenus = str(submenus)
-        else:
-            menus = ['Pedidos']
-            submenus = ['Pedidos']
+        # else:
+        #     menus = ['Pedidos']
+        #     submenus = ['Pedidos']
         # Consulta para obtener todos los pasteles desde la base de datos
         pasteles_query = "SELECT * FROM Esquema_analisis.Pastel"
         cursor.execute(pasteles_query)
