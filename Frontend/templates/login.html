@@ -41,6 +41,7 @@
     .then(response => {
       if (response.status === 200) {
         const usuario = response.data.Usuario;
+        const Id = response.data.Id;
         const pasteles = response.data.Pasteles;
         const menus = response.data.Menus;
         const submenus = response.data.Submenus;
@@ -50,6 +51,7 @@
         localStorage.setItem('Precio', precio);
         localStorage.setItem("Pasteles", JSON.stringify(pasteles)); 
         localStorage.setItem("Usuario", usuario)
+        localStorage.setItem("Id",Id);
         window.location.href = "/templates/inicio.html";
       } else {
         alert("Credenciales inválidas");

@@ -5,6 +5,7 @@ from connection import connection_string
 from collections import defaultdict
 from StrategyMethod import *
 from FactoryMethod import *
+from ChainofResponsability import *
 from interprete import BuscadorPasteles
 from io import BytesIO
 from reportlab.pdfgen import canvas
@@ -57,6 +58,7 @@ def login():
         pasteles = []
         for row in pasteles_data:
             pastel = {
+                'Id': row[0],
                 'Nombre': row[1],
                 'Tipo': row[2],
                 'Sabor': row[3],
@@ -181,6 +183,24 @@ def buscar_pasteles():
     pasteles_coincidentes = buscador.buscar_pasteles(descripcion)
 
     return jsonify({'resultados': pasteles_coincidentes})
+
+@app.route('/api/descripcion', methods=['POST'])
+def descripcion():
+    data = request.get_json()
+    id_pastel = data['idPastel']
+
+    sabor_handler = SaborHandler()
+    relleno_handler = RellenoHandler()
+    descripcion_general_handler = DescripcionGeneralHandler()
+
+    resultado = sabor_handler.handle_request(id_pastel)
+    if resultado is None:
+        resultado = relleno_handler.handle_request(id_pastel)
+    if resultado is None:
+        resultado = descripcion_general_handler.handle_request(id_pastel)
+
+    # Devolver el resultado en la respuesta de la API
+    return jsonify({'descripcion': resultado})
 
 
 if __name__ == "__main__":

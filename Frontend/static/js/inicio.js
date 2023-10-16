@@ -22,7 +22,7 @@ if (pasteles && Array.isArray(pasteles)) {
     card.classList.add("col-md-4");
 
     card.innerHTML = `
-      <div class="card mb-4 shadow-sm">
+      <div class="card mb-4 shadow-sm" id="${pastel.Id}">
         <img src="${pastel.imagenSabor}" class="card-img-top" alt="Imagen del pastel">
         <div class="card-body">
           <h5 class="card-title">${pastel.Nombre}</h5>
@@ -46,13 +46,25 @@ if (pasteles && Array.isArray(pasteles)) {
     const nombrePastelInput = document.getElementById('nombrePastel');
     const tipoPastelInput = document.getElementById('tipoPastel');
     const saborPastelInput = document.getElementById('saborPastel');
+    const descripcionPastel = document.getElementById("descripcionPastel");
     const precioPastelInput = document.getElementById('precioPastel');
-    almacenarUsuarioEnLocalStorage();
+    const idPastel = pastel.Id;
+    
     nombreClienteInput.value = usuario;
     nombrePastelInput.value = pastel.Nombre;
     tipoPastelInput.value = pastel.Tipo;
     saborPastelInput.value = pastel.Sabor;
     precioPastelInput.value = `Q${pastel.Precio}`;
+    console.log(idPastel);
+    axios.post('/api/descripcion', {idPastel})
+      .then(response => {
+          almacenarUsuarioEnLocalStorage();
+          descripcion25 = response.data.descripcion;
+          descripcionPastel.value = descripcion25;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
 
     $('#comprarModal').modal('show');
     const agregarButton = document.getElementById("agregarAlCarrito");
@@ -183,7 +195,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
               card.classList.add("col-md-4");
 
               card.innerHTML = `
-                <div class="card mb-4 shadow-sm">
+                <div class="card mb-4 shadow-sm" id="${pastel.Id}">
                   <img src="${pastel.imagenSabor}" class="card-img-top" alt="Imagen del pastel">
                   <div class="card-body">
                     <h5 class="card-title">${pastel.nombre}</h5>
