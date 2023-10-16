@@ -184,8 +184,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
   .then(response => {
       const resultados = response.data.resultados;
       const resultadosContainer = document.getElementById('pastelesCatalog');
-
-      // Limpia el contenedor antes de agregar nuevos resultados
+      
       resultadosContainer.innerHTML = '';
 
       if (resultados.length > 0) {
@@ -195,7 +194,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
               card.classList.add("col-md-4");
 
               card.innerHTML = `
-                <div class="card mb-4 shadow-sm" id="${pastel.Id}">
+                <div class="card mb-4 shadow-sm" id="${pastel.id}">
                   <img src="${pastel.imagenSabor}" class="card-img-top" alt="Imagen del pastel">
                   <div class="card-body">
                     <h5 class="card-title">${pastel.nombre}</h5>
@@ -211,6 +210,11 @@ document.getElementById('searchButton').addEventListener('click', function () {
               `;
 
               resultadosContainer.appendChild(card);
+              const comprarButton = card.querySelector('.btn.btn-primary');
+              comprarButton.addEventListener('click', function () {
+                comprarPastel(pastel); // Llama a la función con el pastel correspondiente
+              });
+              
           });
       } else {
           resultadosContainer.innerHTML = 'No se encontraron pasteles que coincidan con la búsqueda.';
@@ -221,3 +225,31 @@ document.getElementById('searchButton').addEventListener('click', function () {
   });
 });
 
+function comprarPastel(pastel) {
+  const nombreClienteInput = document.getElementById('nombreCliente');
+  const nombrePastelInput = document.getElementById('nombrePastel');
+  const tipoPastelInput = document.getElementById('tipoPastel');
+  const saborPastelInput = document.getElementById('saborPastel');
+  const descripcionPastel = document.getElementById("descripcionPastel");
+  const precioPastelInput = document.getElementById('precioPastel');
+  const idPastel = pastel.Id;
+
+  nombreClienteInput.value = usuario;
+  nombrePastelInput.value = pastel.nombre;
+  tipoPastelInput.value = pastel.tipo;
+  saborPastelInput.value = pastel.sabor;
+  precioPastelInput.value = `Q${pastel.precio}`;
+  console.log(idPastel);
+  
+  axios.post('/api/descripcion', { idPastel })
+    .then(response => {
+      almacenarUsuarioEnLocalStorage();
+      descripcion25 = response.data.descripcion;
+      descripcionPastel.value = descripcion25;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+  $('#comprarModal').modal('show');
+}

@@ -192,3 +192,87 @@
         function saveToLocalStorage(pastelesEnCarrito) {
             localStorage.setItem("pastelesEnCarrito", JSON.stringify(pastelesEnCarrito));
         }
+
+
+
+
+
+        // document.addEventListener("DOMContentLoaded", function () {
+            // Otras partes de tu código...
+        
+            function updateProgress(progress) {
+                const progressBar2 = document.querySelector(".progress-bar2");
+                const progressIcon = document.querySelector(".progress-icon2");
+                const progressText = document.querySelector(".progress-text2");
+            
+                progressBar2.style.width = `${progress}%`;
+            
+                // Calcular la posición del icono en relación con el progreso
+                const iconPosition = progress <= 97 ? progress : 97;
+                progressIcon.style.left = `${iconPosition-1}%`;
+            
+                if (progress < 76) {
+                    progressIcon.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+                    progressText.innerText = "En curso";
+                } else if (progress < 96) {
+                    progressIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    progressText.innerText = "Validado";
+                } else {
+                    progressIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                    progressText.innerText = "Entregado";
+                }
+            }
+        
+            function createOrderContainer() {
+                // Crear un nuevo contenedor para el pedido
+                const orderContainer = document.createElement("div");
+                orderContainer.className = "container";
+                orderContainer.innerHTML = `
+                    <h1>Tus Pedidos</h1>
+                    <ul class="product-list" id="orderList2">
+                        <!-- Lista de productos del pedido -->
+                    </ul>
+                    <div class="progress-container">
+                        <div class="progress">
+                            <div class="progress-bar2" style="width: 5px;"></div>
+                            <div class="progress-icon2"><i class="fas fa-check-circle"></i></div>
+                        </div>
+                        <p class="progress-text2">En curso</p>
+                    </div>
+                `;
+        
+                // Insertar el contenedor del pedido después del contenedor original
+                document.body.appendChild(orderContainer);
+        
+                // Copiar los productos del carrito al pedido
+                const productList = document.getElementById("productList");
+                const orderList = document.getElementById("orderList2");
+                orderList.innerHTML = productList.innerHTML;
+        
+                // Actualizar la barra de progreso
+                updateProgress(0);
+            }
+        
+            function simulateOrderProgress() {
+                // Simular el progreso del pedido
+                let progress = 0;
+                const interval = setInterval(function () {
+                    progress += 1;
+                    if (progress <= 100) {
+                        updateProgress(progress);
+                    } else {
+                        document.querySelector('.progress-bar').style.width = '100%';
+                        clearInterval(interval);
+                    }
+                }, 300);  // Avanzar 1% cada segundo
+            }
+        
+            function finishPurchase() {
+                // Aquí puedes realizar el pedido y almacenar los detalles
+        
+                // Luego, crea el contenedor del pedido y simula el progreso
+                createOrderContainer();
+                simulateOrderProgress();
+            }
+        
+        
