@@ -146,7 +146,7 @@ localStorage.setItem("Submenus", JSON.stringify(submenus));
 const usuario = localStorage.getItem("Usuario");
 // console.log(usuario)
 // Verificar si el usuario es administrador y mostrar menús y submenús si es el caso
-if (usuario === "Administrador" && menus && menus.length && submenus && submenus.length) {
+if (usuario && menus && menus.length && submenus && submenus.length) {
   const adminMenu = document.getElementById("admin-menu");
   adminMenu.style.display = "block";
 

@@ -19,7 +19,9 @@
             </div>
             <div class="form-group">
               <label for="password"><i class="fas fa-lock"></i> Contraseña</label>
-              <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña">
+              <!-- <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña"> -->
+              <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" oninput="validatePassword(this.value)">
+              <div id="passwordError" style="color: red;"></div>
             </div>
             <button type="submit" class="btn btn-primary">Iniciar sesión</button>
           </form>          
@@ -28,42 +30,7 @@
   </div>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.0/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const username = document.getElementById("user").value;
-  const password = document.getElementById("password").value;
-
-  // Realizar la solicitud POST a la API utilizando Axios
-  axios.post("http://localhost:5000/api/login", { username, password })
-    .then(response => {
-      if (response.status === 200) {
-        const usuario = response.data.Usuario;
-        const Id = response.data.Id;
-        const pasteles = response.data.Pasteles;
-        const menus = response.data.Menus;
-        const submenus = response.data.Submenus;
-        const precio = response.data.Precio;
-        localStorage.setItem("Menus", JSON.stringify(menus));
-        localStorage.setItem("Submenus", JSON.stringify(submenus));
-        localStorage.setItem('Precio', precio);
-        localStorage.setItem("Pasteles", JSON.stringify(pasteles)); 
-        localStorage.setItem("Usuario", usuario)
-        localStorage.setItem("Id",Id);
-        window.location.href = "/templates/inicio.html";
-      } else {
-        alert("Credenciales inválidas");
-      }
-    })
-    .catch(error => {
-      console.error("Error al realizar la solicitud:", error);
-    });
-});
-
-  </script>
-  
-  <!-- <script src="login.js"></script> -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>  
+  <script src="..\static\js\login.js"></script>
 </body>
 </html>

@@ -46,9 +46,11 @@ def login():
         submenus = []
         if nombre_usuario == 'Administrador':
             menus = ['Adminsitracion']
-            submenus = ['Crear pasteles', 'Descuentos', 'Clientes']
+            submenus = ['Pedidos','Crear pasteles', 'Descuentos', 'Clientes']
             # submenus = str(submenus)
-
+        else:
+            menus = ['Pedidos']
+            submenus = ['Pedidos']
         # Consulta para obtener todos los pasteles desde la base de datos
         pasteles_query = "SELECT * FROM Esquema_analisis.Pastel"
         cursor.execute(pasteles_query)
@@ -97,6 +99,7 @@ def catalogo_por_tipo(tipo_pastel):
     pasteles = []
     for row in pasteles_data:
         pastel = {
+            'Id': row[0],
             'Nombre': row[1],
             'Tipo': row[2],
             'Sabor': row[3],
@@ -199,7 +202,6 @@ def descripcion():
     if resultado is None:
         resultado = descripcion_general_handler.handle_request(id_pastel)
 
-    # Devolver el resultado en la respuesta de la API
     return jsonify({'descripcion': resultado})
 
 
