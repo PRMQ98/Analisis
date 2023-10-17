@@ -265,7 +265,7 @@
                         finishPurchase1();
                         clearInterval(interval);
                     }
-                }, 300);  // Avanzar 1% cada segundo
+                }, 300);
             }
         
             function finishPurchase() {
