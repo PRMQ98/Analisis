@@ -157,7 +157,7 @@
             document.querySelector('.confirm-button').style.display = 'block';
         }
 
-        function finishPurchase() {
+        function finishPurchase1() {
             document.querySelector('.progress-bar').style.width = '100%';
             const usuario = localStorage.getItem("Usuario");
             const cliente = usuario; 
@@ -262,15 +262,15 @@
                         updateProgress(progress);
                     } else {
                         document.querySelector('.progress-bar').style.width = '100%';
+                        finishPurchase1();
                         clearInterval(interval);
                     }
                 }, 300);  // Avanzar 1% cada segundo
             }
         
             function finishPurchase() {
-                // Aquí puedes realizar el pedido y almacenar los detalles
-        
-                // Luego, crea el contenedor del pedido y simula el progreso
+                
+                
                 createOrderContainer();
                 simulateOrderProgress();
             }
