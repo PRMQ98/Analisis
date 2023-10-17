@@ -73,9 +73,20 @@ h1 {
     transition: color 0.3s, transform 0.3s;
 }
 
+.navbar-nav .nav-link1 {
+  color: #000000 !important;
+  font-size: 18px;
+  transition: color 0.3s, transform 0.3s;
+}
+
 .navbar-nav .nav-link:hover {
     color: #a8184d !important;
     transform: scale(1.2);
+}
+
+.navbar-nav .nav-link1:hover {
+  color: #a8184d !important;
+  transform: scale(1.2);
 }
 
 .fas.fa-shopping-cart {

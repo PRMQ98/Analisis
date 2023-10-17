@@ -214,7 +214,7 @@
                 if (progress < 76) {
                     progressIcon.innerHTML = '<i class="fas fa-shopping-cart"></i>';
                     progressText.innerText = "En curso";
-                } else if (progress < 96) {
+                } else if (progress < 97) {
                     progressIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
                     progressText.innerText = "Validado";
                 } else {
