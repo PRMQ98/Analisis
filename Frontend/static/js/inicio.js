@@ -158,6 +158,7 @@ if (usuario && menus && menus.length && submenus && submenus.length) {
     const submenuLink = document.createElement("a");
     submenuLink.classList.add("nav-link");
     submenuLink.textContent = submenu;
+    submenuLink.id = submenu;
     submenuElement.appendChild(submenuLink);
     adminMenuList.appendChild(submenuElement);
   });
