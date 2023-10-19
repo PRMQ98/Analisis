@@ -117,7 +117,6 @@ pastelesCatalog.appendChild(noPastelesMessage);
 }
 }
 
-
 // Manejar el clic en los enlaces
 $("nav .nav-link").click(function (e) {
   e.preventDefault();
@@ -158,12 +157,23 @@ if (usuario && menus && menus.length && submenus && submenus.length) {
     const submenuLink = document.createElement("a");
     submenuLink.classList.add("nav-link");
     submenuLink.textContent = submenu;
-    submenuLink.id = submenu;
+    if (submenu == "Crear pasteles"){
+      submenuLink.id = "crearPasteles";
+    }
+    else{
+      submenuLink.id = submenu;
+    }
+    submenuLink.href = "#";
     submenuElement.appendChild(submenuLink);
     adminMenuList.appendChild(submenuElement);
   });
+
 }
 
+$('#crearPasteles').click(function (e) {
+  e.preventDefault();
+  window.location.href = "adminPasteles.html";
+});
 
 function agregarAlCarrito() {
 

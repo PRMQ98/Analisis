@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creación de Pasteles</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="inicio.html" data-tipo="regresar">Regresar</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <h1 class="text-center">Creación de Pasteles</h1>
+                <form>
+                    <div class="form-group">
+                        <label for="nombre">Nombre del Pastel</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Escribe el nombre del pastel">
+                    </div>
+                    <div class="form-group">
+                        <label for="sabor">Sabor del Pastel</label>
+                        <input type="text" class="form-control" id="sabor" placeholder="Escribe el sabor del pastel">
+                    </div>
+                    <div class="form-group">
+                        <label for="ingredientes">Relleno del Pastel</label>
+                        <input class="form-control" id="ingredientes" rows="4" placeholder="Escribe los ingredientes del pastel"></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoPastel">Tipo del Pastel</label>
+                        <select class="form-control" id="tipoPastel">
+                            <option value="Horneado">Horneado</option>
+                            <option value="Frío">Frío</option>
+                            <option value="Yogurt">Yogurt</option>
+                            <option value="Queso">Queso</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="precio">Precio del Pastel</label>
+                        <input type="float" class="form-control" id="precio" placeholder="Escribe el precio del pastel">
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoDescripcion">Tipo de Descripción</label>
+                        <select class="form-control" id="tipoDescripcion" required>
+                            <option value="Sabor">Sabor</option>
+                            <option value="Relleno">Relleno</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción</label>
+                        <textarea class="form-control" id="descripcion" rows="4" placeholder="Agrega notas adicionales"></textarea>
+                    </div>
+                    
+                    <div id="camposAdicionales"></div>
+                    <button id="agregarCampos" class="btn btn-primary">Agregar otra descripción</button>                                    
+                    <button type="submit" class="btn btn-primary">Crear Pastel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="..\static\js\adminPasteles.js"></script> 
+</body>
+</html>

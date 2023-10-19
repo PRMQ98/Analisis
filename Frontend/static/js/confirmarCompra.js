@@ -264,6 +264,7 @@
                         document.querySelector('.progress-bar').style.width = '100%';
                         finishPurchase1();
                         clearInterval(interval);
+                        // window.location.href = "inicio.html"
                     }
                 }, 300);
             }

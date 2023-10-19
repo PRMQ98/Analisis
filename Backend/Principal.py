@@ -6,6 +6,7 @@ from collections import defaultdict
 from StrategyMethod import *
 from FactoryMethod import *
 from ChainofResponsability import *
+from AbstracFactory import *
 from interprete import BuscadorPasteles
 from io import BytesIO
 from reportlab.pdfgen import canvas
@@ -199,6 +200,26 @@ def descripcion():
 
     return jsonify({'descripcion': resultado})
 
+
+@app.route('/api/crearPasteles', methods=['POST'])
+def crear_pasteles():
+    data = request.get_json()
+    # nombre = data.get('nombre')
+    # sabor = data.get('sabor')
+    # relleno = data.get('relleno')
+    # tipoPastel = data.get('tipoPastel')
+    # precio = data.get('precio')
+    # tipoDescripcion = data.get('tipoDescripcion')
+    # descripcion = data.get('descripcion')
+
+    # Crear una instancia de DatabasePastelFactory
+    pastel_factory = DatabasePastelFactory(connection_string)
+
+    # Llamar al método create_pasteles para insertar datos en las tablas
+    pastel_factory.create_pasteles(data)
+
+    
+    return jsonify({"message": "Operación exitosa"}), 200
 
 if __name__ == "__main__":
     app.run(port=5000,debug=True)
