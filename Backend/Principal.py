@@ -103,6 +103,7 @@ def catalogo_por_tipo(tipo_pastel):
             'Relleno': row[4],
             'Precio': row[5],
             'FechaIngreso': row[6],
+            'PrecioConDescuento': row[7],
             'imagenSabor': row[3]
         }
         

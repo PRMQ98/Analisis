@@ -20,7 +20,7 @@ if (pasteles && Array.isArray(pasteles)) {
     // Crea las tarjetas de los pastelesf
     const card = document.createElement("div");
     card.classList.add("col-md-4");
-    console.log(pastel.PrecioConDescuento);
+    
     // Verifica si PrecioConDescuento no es NULL
     const precioConDescuento = pastel.PrecioConDescuento !== null ? `Q${pastel.PrecioConDescuento}` : '';
     const precioOriginal = pastel.PrecioConDescuento !== null ? `<del style="color: red;">Q${pastel.Precio}</del>` : `Q${pastel.Precio}`;
@@ -114,7 +114,7 @@ if (pasteles && Array.isArray(pasteles)) {
     });
 });
 } else {
-// Maneja el caso en el que no haya pasteles en la respuesta
+// Si en caso no hay pasteles en la respuesta
 const noPastelesMessage = document.createElement("p");
 noPastelesMessage.textContent = "No hay pasteles disponibles.";
 pastelesCatalog.appendChild(noPastelesMessage);
@@ -207,7 +207,11 @@ document.getElementById('searchButton').addEventListener('click', function () {
               // Crea las tarjetas de los pasteles
               const card = document.createElement("div");
               card.classList.add("col-md-4");
-
+          
+              // Verifica si PrecioConDescuento no es NULL
+              const precioConDescuento = pastel.PrecioConDescuento !== null ? `Q${pastel.PrecioConDescuento}` : '';
+              const precioOriginal = pastel.PrecioConDescuento !== null ? `<del style="color: red;">Q${pastel.precio}</del>` : `Q${pastel.precio}`;
+          
               card.innerHTML = `
                 <div class="card mb-4 shadow-sm" id="${pastel.id}">
                   <img src="${pastel.imagenSabor}" class="card-img-top" alt="Imagen del pastel">
@@ -217,14 +221,14 @@ document.getElementById('searchButton').addEventListener('click', function () {
                       <strong>Tipo:</strong> ${pastel.tipo}<br>
                       <strong>Sabor:</strong> ${pastel.sabor}<br>
                       <strong>Relleno:</strong> ${pastel.relleno}<br>
-                      <strong>Precio:</strong> Q${pastel.precio}<br>
+                      <strong>Precio:</strong> ${precioOriginal} ${precioConDescuento}<br>
                     </p>
                     <button class="btn btn-primary">Comprar</button>
                   </div>
                 </div>
               `;
-
-              resultadosContainer.appendChild(card);
+          
+              pastelesCatalog.appendChild(card);
               const comprarButton = card.querySelector('.btn.btn-primary');
               comprarButton.addEventListener('click', function () {
                 comprarPastel(pastel); // Llama a la función con el pastel correspondiente

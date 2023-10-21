@@ -40,7 +40,8 @@ class BusquedaInterpreter:
                     'sabor': pastel[3],
                     'relleno': pastel[4],
                     'precio': float(pastel[5]),
-                    'fecha': pastel[6]
+                    'fecha': pastel[6],
+                    'PrecioConDescuento': pastel[7]
                 }
 
                 descripcion_coincide = self.evaluar_descripcion(pastel_dict, palabras_clave)
@@ -56,7 +57,8 @@ class BusquedaInterpreter:
                     'sabor': pastel[3],
                     'relleno': pastel[4],
                     'precio': float(pastel[5]),
-                    'fecha': pastel[6]
+                    'fecha': pastel[6],
+                    'PrecioConDescuento': pastel[7]
                 }
 
                 descripcion_coincide = self.evaluar_descripcion(pastel_dict, palabras_clave)
