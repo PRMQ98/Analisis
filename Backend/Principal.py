@@ -48,7 +48,7 @@ def login():
         if nombre_usuario == 'Administrador':
             menus = ['Adminsitracion']
             submenus = ['Crear pasteles']
-        pasteles_query = "SELECT * FROM Esquema_analisis.Pastel"
+        pasteles_query = "SELECT * FROM Esquema_analisis.Pastel ORDER BY CASE WHEN PrecioConDescuento IS NOT NULL THEN 0 ELSE 1 END, PrecioConDescuento"
         cursor.execute(pasteles_query)
         pasteles_data = cursor.fetchall()
 
