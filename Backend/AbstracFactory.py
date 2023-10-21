@@ -1,68 +1,51 @@
-# Fábrica abstracta para productos de pastelería
-class PasteleriaFactory:
-    def crear_pastel(self):
-        pass
-    
-    def crear_galleta(self):
-        pass
+from abc import ABC, abstractmethod
+import pyodbc
 
-# Fábrica concreta para productos de pastelería de chocolate
-class PasteleriaDeChocolateFactory(PasteleriaFactory):
-    def crear_pastel(self):
-        return PastelDeChocolate()
-    
-    def crear_galleta(self):
-        return GalletaDeChocolate()
-
-# Fábrica concreta para productos de pastelería de vainilla
-class PasteleriaDeVainillaFactory(PasteleriaFactory):
-    def crear_pastel(self):
-        return PastelDeVainilla()
-    
-    def crear_galleta(self):
-        return GalletaDeVainilla()
-
-# Clase base para pasteles
-class Pastel:
-    def sabor(self):
+class PastelFactory(ABC):
+    @abstractmethod
+    def create_pastel(self, data):
         pass
 
-# Clase concreta para Pastel de Chocolate
-class PastelDeChocolate(Pastel):
-    def sabor(self):
-        return "Chocolate"
-
-# Clase concreta para Pastel de Vainilla
-class PastelDeVainilla(Pastel):
-    def sabor(self):
-        return "Vainilla"
-
-# Clase base para galletas
-class Galleta:
-    def sabor(self):
+    @abstractmethod
+    def create_descripcion(self, data, pastel_id):
         pass
 
-# Clase concreta para Galleta de Chocolate
-class GalletaDeChocolate(Galleta):
-    def sabor(self):
-        return "Chocolate"
+class DatabasePastelFactory(PastelFactory):
+    def __init__(self, connection_string):
+        self.connection_string = connection_string
 
-# Clase concreta para Galleta de Vainilla
-class GalletaDeVainilla(Galleta):
-    def sabor(self):
-        return "Vainilla"
+    def create_pastel(self, data):
+        connection = pyodbc.connect(self.connection_string)
+        cursor = connection.cursor()
 
-# Uso del patrón Abstract Factory
-def main():
-    # Seleccionamos la fábrica de pastelería de chocolate
-    fabrica_chocolate = PasteleriaDeChocolateFactory()
-    
-    # Creamos un pastel y una galleta de chocolate
-    pastel_chocolate = fabrica_chocolate.crear_pastel()
-    galleta_chocolate = fabrica_chocolate.crear_galleta()
-    
-    print(f"Pastel de sabor: {pastel_chocolate.sabor()}")
-    print(f"Galleta de sabor: {galleta_chocolate.sabor()}")
+        cursor.execute("SELECT MAX(ID_Pastel) FROM Esquema_analisis.Pastel")
+        ultimo_id_pastel = cursor.fetchone()[0]
+        nuevo_id_pastel = ultimo_id_pastel + 1
 
-if _name_ == "_main_":
-    main()
+        pastel_query = """INSERT INTO Esquema_analisis.Pastel 
+                          (ID_Pastel, Nombre, Tipo, Sabor, Relleno, Precio, FechaIngreso)
+                          VALUES (?, ?, ?, ?, ?, ?, GETDATE())"""
+        cursor.execute(pastel_query, (nuevo_id_pastel, data['nombre'], data['tipoPastel'], data['sabor'], data['relleno'], data['precio']))
+        connection.commit()
+        connection.close()
+
+        return nuevo_id_pastel
+
+    def create_descripcion(self, data, pastel_id):
+        connection = pyodbc.connect(self.connection_string)
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT MAX(ID_Descripcion) FROM Esquema_analisis.Descripcion")
+        ultimo_id_descripcion = cursor.fetchone()[0]
+        nuevo_id_descripcion = ultimo_id_descripcion + 1
+
+        descripcion_query = """INSERT INTO Esquema_analisis.Descripcion 
+                              (ID_Descripcion, ID_Pastel, TipoDescripcion, TextoDescripcion)
+                              VALUES (?, ?, ?, ?)"""
+        cursor.execute(descripcion_query, (nuevo_id_descripcion, pastel_id, data['tipoDescripcion'], data['descripcion']))
+        connection.commit()
+        connection.close()
+
+    def create_pasteles(self, data):
+        pastel_id = self.create_pastel(data)
+        self.create_descripcion(data, pastel_id)
