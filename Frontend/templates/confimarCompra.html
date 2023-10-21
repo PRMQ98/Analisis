@@ -7,22 +7,23 @@
     <link rel="stylesheet" href="..\static\css\carrito.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Carrito de Compras</h1>
+        <h1>Confirmar Compra</h1>
         <!-- Lista de productos -->
-        <ul class="product-list">
+        <ul class="product-list" id="productList">
             <li class="product">
                 <div class="product-details">
-                    <h2>Pastel de Chocolate</h2>
-                    <p>Precio: Q75.00</p>
+                    <h2 id="nombrePastel">Pastel de Chocolate</h2>
+                    <p>Precio: <span id="precioPastel">Q75.00</span></p>
                 </div>
                 <div class="quantity">
                     <button onclick="decrementQuantity(this)">-</button>
                     <span>1</span>
                     <button onclick="incrementQuantity(this)">+</button>
-                </div>
+                </div>                                           
                 <button class="delete-button" onclick="removeProduct(this)"><i class="fas fa-trash-alt"></i></button>
             </li>
             <!-- Agregar más productos aquí -->
@@ -52,7 +53,6 @@
             <button class="confirm-button" onclick="finishPurchase()">Confirmar</button>
         </div>
     </div>
-
     <script src="..\static\js\confirmarCompra.js"></script>
 </body>
 </html>
