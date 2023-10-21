@@ -20,6 +20,10 @@ if (pasteles && Array.isArray(pasteles)) {
     // Crea las tarjetas de los pastelesf
     const card = document.createElement("div");
     card.classList.add("col-md-4");
+    console.log(pastel.PrecioConDescuento);
+    // Verifica si PrecioConDescuento no es NULL
+    const precioConDescuento = pastel.PrecioConDescuento !== null ? `Q${pastel.PrecioConDescuento}` : '';
+    const precioOriginal = pastel.PrecioConDescuento !== null ? `<del style="color: red;">Q${pastel.Precio}</del>` : `Q${pastel.Precio}`;
 
     card.innerHTML = `
       <div class="card mb-4 shadow-sm" id="${pastel.Id}">
@@ -30,12 +34,12 @@ if (pasteles && Array.isArray(pasteles)) {
             <strong>Tipo:</strong> ${pastel.Tipo}<br>
             <strong>Sabor:</strong> ${pastel.Sabor}<br>
             <strong>Relleno:</strong> ${pastel.Relleno}<br>
-            <strong>Precio:</strong> Q${pastel.Precio}<br>
+            <strong>Precio:</strong> ${precioOriginal} ${precioConDescuento}<br>
           </p>
           <button class="btn btn-primary">Comprar</button>
         </div>
       </div>
-  `;
+    `;
   pastelesCatalog.appendChild(card);
 
   // Obtener el botón "Comprar" dentro de esta tarjeta y agregar el evento de clic

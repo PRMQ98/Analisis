@@ -63,6 +63,7 @@ def login():
                 'Relleno': row[4],
                 'Precio':row[5],
                 'FechaIngreso': row[6],
+                'PrecioConDescuento': row[7],
                 'imagenSabor': row[3]
             }
             if pastel['Sabor'] == 'Fresa' or pastel['Nombre'] == 'Pastel de Fresa':
