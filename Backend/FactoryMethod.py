@@ -1,5 +1,9 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+import tempfile
+from jinja2 import Environment, FileSystemLoader
 
 # Clase abstracta para representar un Pedido
 class Pedido(ABC):
@@ -15,14 +19,27 @@ class Pedido(ABC):
 # Clase para representar un Pedido al Contado
 class PedidoContado(Pedido):
     def generar_factura(self):
-        # Lógica para generar factura en formato PDF
-        print(f"Generando factura al contado para {self.cliente}")
+        # Genera el archivo PDF
+        pdf_buffer = tempfile.SpooledTemporaryFile()
+        c = canvas.Canvas(pdf_buffer, pagesize=letter)
+        c.drawString(100, 750, f"Factura para {self.cliente}")
+        c.showPage()
+        c.save()
+        pdf_buffer.seek(0)
+
+        return pdf_buffer
 
 # Clase para representar un Pedido al Crédito
 class PedidoCredito(Pedido):
     def generar_factura(self):
-        # Lógica para generar nota de crédito en formato PDF
-        print(f"Generando nota de crédito para {self.cliente}")
+        pdf_buffer = tempfile.SpooledTemporaryFile()
+        c = canvas.Canvas(pdf_buffer, pagesize=letter)
+        c.drawString(100, 750, f"Nota de crédito para {self.cliente}")
+        c.showPage()
+        c.save()
+        pdf_buffer.seek(0)
+
+        return pdf_buffer
 
 # Factory Method para crear pedidos
 class PedidoFactory(ABC):
@@ -39,19 +56,3 @@ class PedidoContadoFactory(PedidoFactory):
 class PedidoCreditoFactory(PedidoFactory):
     def crear_pedido(self, cliente, productos):
         return PedidoCredito(cliente, productos)
-
-# Aqui en esta seccion se podria generar un ejemplo de uso de este
-if __name__ == "__main__":
-    cliente = "Cliente Ejemplo"
-    productos = ["Pastel de Chocolate", "Pastel de Fresa"]
-    
-    # Crear un pedido al contado
-    factory_contado = PedidoContadoFactory()
-    pedido_contado = factory_contado.crear_pedido(cliente, productos)
-    pedido_contado.generar_factura()
-
-    # Crear un pedido al crédito
-    factory_credito = PedidoCreditoFactory()
-    pedido_credito = factory_credito.crear_pedido(cliente, productos)
-    pedido_credito.generar_factura()
-
