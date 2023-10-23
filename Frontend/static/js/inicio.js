@@ -58,7 +58,8 @@ if (pasteles && Array.isArray(pasteles)) {
     nombrePastelInput.value = pastel.Nombre;
     tipoPastelInput.value = pastel.Tipo;
     saborPastelInput.value = pastel.Sabor;
-    precioPastelInput.value = `Q${pastel.Precio}`;
+    // precioPastelInput.value = `Q${pastel.Precio}`;
+    precioPastelInput.value = pastel.PrecioConDescuento !== null ? `Q${pastel.PrecioConDescuento}` : `Q${pastel.Precio}`;
     console.log(idPastel);
     axios.post('/api/descripcion', {idPastel})
       .then(response => {
@@ -210,7 +211,7 @@ document.getElementById('searchButton').addEventListener('click', function () {
           
               // Verifica si PrecioConDescuento no es NULL
               const precioConDescuento = pastel.PrecioConDescuento !== null ? `Q${pastel.PrecioConDescuento}` : '';
-              const precioOriginal = pastel.PrecioConDescuento !== null ? `<del style="color: red;">Q${pastel.precio}</del>` : `Q${pastel.precio}`;
+              const precioOriginal = pastel.PrecioConDescuento !== null ? `<del style="color: red;">Q${pastel.precio}</del>` : `<span>Q${pastel.precio}</span>`;
           
               card.innerHTML = `
                 <div class="card mb-4 shadow-sm" id="${pastel.id}">
