@@ -23,7 +23,7 @@ class BusquedaInterpreter:
         query = query.lower()
 
         palabras_clave = query.split()
-        conectores = ["y", "de", "con"]
+        conectores = ["y", "de", "o", "con"]
 
         # Eliminar los conectores de la consulta
         palabras_clave = [palabra for palabra in palabras_clave if palabra not in conectores]
